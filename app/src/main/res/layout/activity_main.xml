@@ -13,6 +13,33 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.121" />
+
+    <Button
+        android:id="@+id/walkButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WALK"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="358dp"
+        android:onClick=""/>
+
+    <Button
+        android:id="@+id/scheduleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SCHEDULE"
+        tools:layout_editor_absoluteX="145dp"
+        tools:layout_editor_absoluteY="358dp" />
+
+    <Button
+        android:id="@+id/gameButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GAME"
+        tools:layout_editor_absoluteX="280dp"
+        tools:layout_editor_absoluteY="358dp" />
+
 
 </android.support.constraint.ConstraintLayout>
