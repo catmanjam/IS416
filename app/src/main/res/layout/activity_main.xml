@@ -23,7 +23,7 @@
         android:text="WALK"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="358dp"
-        android:onClick=""/>
+        />
 
     <Button
         android:id="@+id/scheduleButton"
