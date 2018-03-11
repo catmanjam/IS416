@@ -13,8 +13,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    protected void startWalkActivity(View v) {
-        Intent launchWalk = new Intent(this, WalkActivity.class);
-        startActivity(launchWalk);
+
+    public void launchWalkActivity(View view) {
+        Intent walkLaunch = new Intent(this, WalkActivity.class);
+        startActivity(walkLaunch);
+    }
+
+
+    public void launchSchduleActivity(View view) {
+        Intent schduleLaunch = new Intent(this, ScheduleActivity.class);
+        startActivity(schduleLaunch);
+    }
+
+
+    public void launchGameActivity(View view) {
+        Intent gameLaunch = new Intent(this, GameActivity.class);
+        startActivity(gameLaunch);
     }
 }
