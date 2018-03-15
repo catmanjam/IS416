@@ -19,12 +19,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(walkLaunch);
     }
 
-
-    public void launchSchduleActivity(View view) {
-        Intent schduleLaunch = new Intent(this, ScheduleActivity.class);
-        startActivity(schduleLaunch);
+    public void launchScheduleActivity(View view) {
+        Intent scheduleLaunch = new Intent(this, ScheduleActivity.class);
+        startActivity(scheduleLaunch);
     }
-
 
     public void launchGameActivity(View view) {
         Intent gameLaunch = new Intent(this, GameActivity.class);
