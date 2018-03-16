@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="is416.is416.MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
+    <!--<ListView-->
+        <!--android:id="@+id/stats"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!---->
+    <!--</ListView>-->
+
+    <ImageView
+        android:id="@+id/catPic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
+        android:src="@drawable/catPic"
+        android:tag="catPic" />
+
+    <Button
+        android:id="@+id/gameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:onClick="launchGameActivity"
+        android:text="GAME"/>
 
     <Button
         android:id="@+id/walkButton"
@@ -25,12 +43,5 @@
         android:layout_height="wrap_content"
         android:onClick="launchScheduleActivity"
         android:text="SCHEDULE" />
-
-    <Button
-        android:id="@+id/gameButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="launchGameActivity"
-        android:text="GAME" />
 
 </LinearLayout>
