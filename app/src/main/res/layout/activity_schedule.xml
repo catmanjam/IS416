@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context="is416.is416.ScheduleActivity">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="115dp"
+        tools:layout_editor_absoluteY="141dp" />
 </android.support.constraint.ConstraintLayout>
