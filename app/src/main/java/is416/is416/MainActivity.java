@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import is416.is416.Schedule.DialogueFlowActivity;
+import is416.is416.Schedule.ScheduleActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -20,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void launchScheduleActivity(View view) {
-        Intent scheduleLaunch = new Intent(this, ScheduleActivity.class);
+        Intent scheduleLaunch = new Intent(this, DialogueFlowActivity.class);
         startActivity(scheduleLaunch);
     }
 

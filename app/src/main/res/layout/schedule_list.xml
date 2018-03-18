@@ -9,12 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="image"
+        android:padding="10px"
+        android:src="@drawable/cat_icon_brown"
         android:layout_weight="4" />
 
     <LinearLayout
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,7 +48,7 @@
             <TextView
                 android:id="@+id/details"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Details" />
         </LinearLayout>

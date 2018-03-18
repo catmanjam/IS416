@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="is416.is416">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,8 +20,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".WalkActivity" />
-        <activity android:name=".ScheduleActivity" />
-        <activity android:name=".GameActivity"></activity>
+        <activity android:name=".Schedule.ScheduleActivity" />
+        <activity android:name=".GameActivity" />
+        <activity android:name=".Schedule.DialogueFlowActivity"></activity>
     </application>
 
 </manifest>

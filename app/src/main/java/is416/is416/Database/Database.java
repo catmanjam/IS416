@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +17,15 @@ import java.util.List;
 public class Database extends SQLiteOpenHelper {
 
     private static Database dbInstance;
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "reminder";
 
     // Apporintment Table and Columns names
-    private static final String TABLE_APPOINTMENTS = "appointments";
-    private static final String KEY_ID = "id";
-    private static final String KEY_DATE = "date";
-    private static final String KEY_TIME = "time";
-    private static final String KEY_DETAILS = "details";
+    public static final String TABLE_APPOINTMENTS = "appointments";
+    public static final String KEY_ID = "_id";
+    public static final String KEY_DATE = "date";
+    public static final String KEY_TIME = "time";
+    public static final String KEY_DETAILS = "details";
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -41,9 +42,10 @@ public class Database extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_APPOINTMENTS_TABLE = "CREATE TABLE " + TABLE_APPOINTMENTS + "("
+        String CREATE_APPOINTMENTS_TABLE = "CREATE TABLE " + TABLE_APPOINTMENTS + "( "
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_DATE + " DATETIME,"
+                + KEY_TIME + " DATETIME,"
                 + KEY_DETAILS + " TEXT" + ")";
         db.execSQL(CREATE_APPOINTMENTS_TABLE);
     }
@@ -59,7 +61,8 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_DATE, appt.getDate()+"T"+appt.getTime()); // Date Time
+        values.put(KEY_DATE, appt.getDate()); // Date Time
+        values.put(KEY_TIME, appt.getTime()); // Date Time
         values.put(KEY_DETAILS, appt.getDetails()); // Details
 
         // Inserting Row
@@ -79,7 +82,7 @@ public class Database extends SQLiteOpenHelper {
             cursor.moveToFirst();
 
         Appointment appt = new Appointment(Integer.parseInt(cursor.getString(0)),cursor.getString(1),
-                cursor.getString(1), cursor.getString(2));
+                cursor.getString(2), cursor.getString(3));
         // return contact
         return appt;
     }
@@ -96,7 +99,7 @@ public class Database extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Appointment appt = new Appointment(Integer.parseInt(cursor.getString(0)),cursor.getString(1),
-                        cursor.getString(1), cursor.getString(2));
+                        cursor.getString(2), cursor.getString(3));
                 // Adding contact to list
                 apptList.add(appt);
             } while (cursor.moveToNext());
@@ -106,8 +109,18 @@ public class Database extends SQLiteOpenHelper {
         return apptList;
     }
 
+    public void delete(int anInt) {
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        db.delete(TABLE_APPOINTMENTS,KEY_ID+"=?",new String[]{String.valueOf(anInt)});
+        db.close();
+    }
 
+    public Cursor getAll(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT  * FROM "+TABLE_APPOINTMENTS, null);
+        return c;
+    }
 
 
 

@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="is416.is416.ScheduleActivity">
+    tools:context="is416.is416.Schedule.ScheduleActivity">
 
-    <TextView
-        android:id="@+id/textView"
+
+    <ListView
+        android:id="@+id/schedule_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="115dp"
-        tools:layout_editor_absoluteY="141dp" />
+        android:layout_gravity="center" />
 </android.support.constraint.ConstraintLayout>
