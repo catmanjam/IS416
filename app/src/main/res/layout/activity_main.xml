@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="is416.is416.MainActivity">
-
+    tools:context="is416.is416.MainActivity"
+    android:background="@drawable/bg">
     <!--<ListView-->
         <!--android:id="@+id/stats"-->
         <!--android:layout_width="match_parent"-->
@@ -14,34 +14,53 @@
 
         <!---->
     <!--</ListView>-->
-
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/catPic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="center"
-        android:src="@drawable/catpic"
+        android:src="@drawable/cat"
+        android:layout_weight="1"
         android:tag="catPic" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/gameButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="launchGameActivity"
-        android:text="GAME"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/walkButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="launchWalkActivity"
-        android:text="WALK" />
+        <Button
+            android:id="@+id/gameButton"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="0.3"
+            android:background="@drawable/rounded_btn"
+            android:onClick="launchGameActivity"
+            android:text="GAME" />
 
-    <Button
-        android:id="@+id/scheduleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="launchScheduleActivity"
-        android:text="SCHEDULE" />
+        <Button
+            android:id="@+id/walkButton"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="0.3"
+            android:background="@drawable/rounded_btn"
+            android:onClick="launchWalkActivity"
+            android:text="WALK" />
 
+        <Button
+            android:id="@+id/scheduleButton"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="0.3"
+            android:background="@drawable/rounded_btn"
+            android:onClick="launchScheduleActivity"
+            android:text="SCHEDULE" />
+
+    </LinearLayout>
 </LinearLayout>
