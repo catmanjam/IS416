@@ -200,7 +200,7 @@ public class DialogueFlowActivity extends AppCompatActivity implements AIListene
             String name = params.has("name")? params.getString("name"):null;
             String date = params.has("date")? params.getString("date"):null;
 
-            if (time!= null && name != null && date != null){
+            if (time!= null && !time.isEmpty() && name != null && !name.isEmpty() && date != null && !date.isEmpty()){
                 myDb.addAppointment(new Appointment(date, time, name));
                 Toast.makeText(this, "Appointment added to DB", Toast.LENGTH_SHORT);
             }

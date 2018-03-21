@@ -29,25 +29,13 @@ public class ScheduleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_schedule);
         myDb = Database.getInstance(this);
         final ListView lv = findViewById(R.id.schedule_list);
-
-//        List<Appointment> appts = myDb.getAllAppointments();
         SQLiteDatabase db = myDb.getWritableDatabase();
         Log.d("Database", ""+db);
 
         Cursor cursor = db.rawQuery("SELECT  * FROM appointments", null);
 
         final ScheduleListAdapter adapter = new ScheduleListAdapter(this, cursor);
-//        final ScheduleListAdapter adapter = new ScheduleListAdapter(this, appts);
         lv.setAdapter(adapter);
-
-//        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//                appts.remove(position);
-//                adapter.notifyDataSetChanged();
-//                return true;
-//            }
-//        });
 
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 

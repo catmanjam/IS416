@@ -37,49 +37,6 @@ public class ScheduleListAdapter extends CursorAdapter {
         super(context, cursor, 0);
     }
 
-
-//    public ScheduleListAdapter(Context context, List<Appointment> list){
-//        this.context = context;
-//        this.list = list;
-//    }
-
-//    @Override
-//    public int getCount() {
-//        return list.size();
-//    }
-//
-//    @Override
-//    public Object getItem(int position) {
-//        return list.get(position);
-//    }
-//
-//    @Override
-//    public long getItemId(int position) {
-//        return position;
-//    }
-//
-//    @Override
-//    public View getView(int position, View convertView, ViewGroup parent) {
-//        View rowView = convertView;
-//
-//        ViewHolder viewHolder = new ViewHolder();
-//        if(rowView == null){
-//            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-//            rowView = inflater.inflate(R.layout.schedule_list, null );
-//            viewHolder.date = (TextView) rowView.findViewById(R.id.date);
-//            viewHolder.time = (TextView)rowView.findViewById(R.id.time);
-//            viewHolder.details = (TextView) rowView.findViewById(R.id.details);
-//            rowView.setTag(viewHolder);
-//        }else{
-//            viewHolder = (ViewHolder) rowView.getTag();
-//        }
-//        viewHolder.date.setText(list.get(position).getDate());
-//        viewHolder.time.setText(list.get(position).getTime());
-//        viewHolder.details.setText(list.get(position).getDetails());
-//
-//        return rowView;
-//    }
-
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         return LayoutInflater.from(context).inflate(R.layout.schedule_list, parent, false);
