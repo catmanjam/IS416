@@ -1,6 +1,5 @@
 package is416.is416.Schedule;
 
-import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,14 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.List;
-
-import is416.is416.Database.Appointment;
 import is416.is416.Database.Database;
 import is416.is416.R;
-import is416.is416.Schedule.ScheduleListAdapter;
 
 public class ScheduleActivity extends AppCompatActivity {
 
