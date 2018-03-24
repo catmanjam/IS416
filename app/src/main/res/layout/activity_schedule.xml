@@ -2,14 +2,31 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:backgroundTint="#D3D3D3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="is416.is416.Schedule.ScheduleActivity">
 
-
-    <ListView
-        android:id="@+id/schedule_list"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:background="#DD4C39"
+            android:layout_width="match_parent"
+            android:textColor="#FFFFFF"
+            android:text="My Schedule"
+            android:gravity="center"
+            android:fontFamily="serif"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_height="45dp" />
+
+        <ListView
+            android:id="@+id/schedule_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
