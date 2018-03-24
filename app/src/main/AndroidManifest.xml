@@ -19,7 +19,7 @@
         <activity android:name=".Schedule.ScheduleActivity" />
         <activity android:name=".GameActivity" />
         <activity android:name=".Schedule.DialogueFlowActivity" />
-        <activity android:name=".Schedule.CatMainActivity">
+        <activity android:name=".CatMainActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

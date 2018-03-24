@@ -1,4 +1,4 @@
-package is416.is416.Schedule;
+package is416.is416;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,7 @@ import android.view.View;
 
 import is416.is416.GameActivity;
 import is416.is416.R;
+import is416.is416.Schedule.ScheduleActivity;
 import is416.is416.WalkActivity;
 
 public class CatMainActivity extends AppCompatActivity {
