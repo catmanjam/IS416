@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,11 +45,15 @@ public class Mic implements AIListener {
     private Context context;
     private TextView questionView;
     private TextView answerView;
+    private View speechBubbleView;
+    private View questionBubbleView;
 
-    public Mic(Context context, TextView questionView, TextView answerView){
+    public Mic(Context context, TextView questionView, TextView answerView, View speechBubbleView, View questionBubbleView){
         this.questionView = questionView;
         this.answerView = answerView;
         this.context = context;
+        this.speechBubbleView = speechBubbleView;
+        this.questionBubbleView = questionBubbleView;
     }
 
     public void micStart(){
@@ -124,10 +129,7 @@ public class Mic implements AIListener {
 
             if (time!= null && !time.isEmpty() && name != null && !name.isEmpty() && date != null && !date.isEmpty()){
                 myDb.addAppointment(new Appointment(date, time, name));
-                Toast.makeText(context, "Item added", Toast.LENGTH_SHORT).show();
             }
-
-            Log.d("c ", "response is " + text);
             return speech;
 
         } catch (Exception ex) {
@@ -155,8 +157,15 @@ public class Mic implements AIListener {
         }
         String userQuery = result.getResolvedQuery();
         // Show results in TextView.
-        questionView.setText("Query:" + userQuery + "\n"
-                + "Parameter: " + parameterString);
+        questionBubbleView.setVisibility(TextView.VISIBLE);
+        questionView.setText(userQuery);
+        questionBubbleView.postDelayed(new Runnable() {
+            public void run() {
+                questionBubbleView.setVisibility(TextView.INVISIBLE);
+            }
+        }, 3500);
+//        questionView.setText("Query:" + userQuery + "\n"
+//                + "Parameter: " + parameterString);
         RetrieveFeedTask task=new RetrieveFeedTask();
         task.execute(userQuery);
     }
@@ -182,7 +191,13 @@ public class Mic implements AIListener {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            speechBubbleView.setVisibility(TextView.VISIBLE);
             answerView.setText(s);
+            speechBubbleView.postDelayed(new Runnable() {
+                public void run() {
+                    speechBubbleView.setVisibility(TextView.INVISIBLE);
+                }
+            }, 4000);
 
         }
     }

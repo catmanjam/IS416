@@ -65,6 +65,8 @@ tools:context="is416.is416.CatMainActivity">
                         android:scaleType="centerCrop"
                         app:srcCompat="@drawable/placeholder_powerbar" />
 
+
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -91,10 +93,38 @@ tools:context="is416.is416.CatMainActivity">
                         android:padding="15dp"
                         android:scaleType="centerCrop"
                         app:srcCompat="@drawable/placeholder_powerbar" />
-
                 </LinearLayout>
 
+                <RelativeLayout
+                    android:id="@+id/questionBubble"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <ImageView
+                        android:layout_width="250dp"
+                        android:layout_height="125dp"
+                        android:background="@drawable/speechbubble"
+                        />
+
+                    <me.grantland.widget.AutofitTextView
+                        android:maxLines="3"
+                        android:textSize="30sp"
+                        android:paddingRight="15dp"
+                        android:paddingLeft="40dp"
+                        android:gravity="center"
+                        android:id="@+id/question"
+                        android:text="set reminder for tomorrow 10 am"
+                        android:layout_width="250dp"
+                        android:layout_height="110dp" />
+
+
+                </RelativeLayout>
+
+
+                <!--android:visibility="invisible"-->
+
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="0.2"
@@ -138,25 +168,29 @@ tools:context="is416.is416.CatMainActivity">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <!--Speech bubble-->
+            <!--android:visibility="invisible"-->
+            <!--Cat's Speech bubble-->
             <RelativeLayout
+
+                android:id="@+id/answerbubble"
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
                 android:layout_weight="0.7">
 
-                <TextView
+
+                <me.grantland.widget.AutofitTextView
+                    android:maxLines="3"
+                    android:textSize="35sp"
                     android:id="@+id/answer"
                     android:layout_width="250dp"
-                    android:layout_height="550dp"
+                    android:layout_height="200dp"
                     android:layout_above="@id/triangle"
                     android:layout_centerHorizontal="true"
-                    android:autoSizeTextType="uniform"
+                    android:gravity="center"
                     android:background="@drawable/rounded_rectangle_orange"
-                    android:padding="10dp"
-
-                    android:text="nyddd"
+                    android:padding="5dp"
+                    android:text="what should i name this reminder?"
                     app:srcCompat="@drawable/speechbubble" />
 
                 <ImageView
@@ -170,7 +204,7 @@ tools:context="is416.is416.CatMainActivity">
 
             </RelativeLayout>
 
-
+            <!--THIS IS THE BOTTOM HALF OF THE PAGE-->
             <LinearLayout
                 android:paddingTop="100dp"
                 android:layout_alignParentBottom="true"
@@ -192,24 +226,8 @@ tools:context="is416.is416.CatMainActivity">
 
             </LinearLayout>
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/question"
-                    android:text="What you said"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <!--<TextView-->
-                    <!--android:id="@+id/answer"-->
-                    <!--android:text="What cat replied"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content" />-->
-            </LinearLayout>
-
+            <!--THIS IS THE MIC BUTTON-->
             <Button
                 android:padding="10dp"
                 android:id="@+id/micButton"
@@ -219,8 +237,13 @@ tools:context="is416.is416.CatMainActivity">
                 android:layout_centerHorizontal="true"
                 android:onClick="micClick"
                 android:text="Mic" />
+
+
         </RelativeLayout>
+
+
     </LinearLayout>
+
 
 
 

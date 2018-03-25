@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "is416.is416"
-        minSdkVersion 23
+        minSdkVersion 25
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -42,4 +42,6 @@ dependencies {
     compile 'com.google.code.findbugs:jsr305:2.0.1'
     compile 'com.android.support:support-vector-drawable:27.1.0'
 
+//    for text resizing
+    compile 'me.grantland:autofittextview:0.2.+'
 }

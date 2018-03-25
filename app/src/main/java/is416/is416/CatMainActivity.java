@@ -18,6 +18,7 @@ import is416.is416.Schedule.DialogueFlowActivity;
 import is416.is416.Schedule.Mic;
 import is416.is416.Schedule.ScheduleActivity;
 import is416.is416.WalkActivity;
+import me.grantland.widget.AutofitHelper;
 
 public class CatMainActivity extends AppCompatActivity {
 
@@ -47,8 +48,13 @@ public class CatMainActivity extends AppCompatActivity {
         Button micButton = (Button) findViewById(R.id.micButton);
         TextView questionView = (TextView) findViewById(R.id.question);
         TextView answerView = (TextView) findViewById(R.id.answer);
+        View speechBubbleView = findViewById(R.id.answerbubble);
+        View questionBubbleView = findViewById(R.id.questionBubble);
 
-        mic = new Mic(this, questionView, answerView);
+        AutofitHelper autofitHelper = AutofitHelper.create(answerView);
+        autofitHelper.setTextSize(answerView.getTextSize());
+
+        mic = new Mic(this, questionView, answerView, speechBubbleView, questionBubbleView);
         mic.micStart();
     }
 
