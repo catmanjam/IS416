@@ -181,7 +181,7 @@ tools:context="is416.is416.CatMainActivity">
 
                 <me.grantland.widget.AutofitTextView
                     android:maxLines="3"
-                    android:textSize="35sp"
+                    android:textSize="32sp"
                     android:id="@+id/answer"
                     android:layout_width="250dp"
                     android:layout_height="200dp"
@@ -228,15 +228,23 @@ tools:context="is416.is416.CatMainActivity">
 
 
             <!--THIS IS THE MIC BUTTON-->
-            <Button
-                android:padding="10dp"
-                android:id="@+id/micButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:onClick="micClick"
-                android:text="Mic" />
+            <RelativeLayout
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageButton
+                    android:id="@+id/micButton"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/mic"
+                    android:onClick="micClick"
+                    android:padding="10dp"
+                    android:text="Mic" />
+
+            </RelativeLayout>
 
 
         </RelativeLayout>

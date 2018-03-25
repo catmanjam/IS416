@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import is416.is416.Database.Database;
@@ -45,7 +46,7 @@ public class CatMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cat_main);
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
 
-        Button micButton = (Button) findViewById(R.id.micButton);
+        ImageButton micButton = (ImageButton) findViewById(R.id.micButton);
         TextView questionView = (TextView) findViewById(R.id.question);
         TextView answerView = (TextView) findViewById(R.id.answer);
         View speechBubbleView = findViewById(R.id.answerbubble);
