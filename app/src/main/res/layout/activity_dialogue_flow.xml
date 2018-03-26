@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="is416.is416.Schedule.DialogueFlowActivity">
+
+    <Button
+        android:id="@+id/listenButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="listenButtonClicked"
+        android:text="Listen" />
+
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/outputText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/button"
+        android:onClick="goApptList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DBView" />
+
+</LinearLayout>
