@@ -38,7 +38,7 @@
             android:layout_height="53dp"
             android:layout_marginTop="30dp"
             android:layout_weight="0.3"
-            android:background="@drawable/rounded_btn"
+            android:background="@drawable/game_btn"
             android:onClick="launchGameActivity"
             android:text="GAME" />
 
@@ -48,7 +48,7 @@
             android:layout_height="53dp"
             android:layout_marginTop="30dp"
             android:layout_weight="0.3"
-            android:background="@drawable/rounded_btn"
+            android:background="@drawable/game_btn"
             android:onClick="launchWalkActivity"
             android:text="WALK" />
 
@@ -58,7 +58,7 @@
             android:layout_height="53dp"
             android:layout_marginTop="30dp"
             android:layout_weight="0.3"
-            android:background="@drawable/rounded_btn"
+            android:background="@drawable/game_btn"
             android:onClick="launchScheduleActivity"
             android:text="SCHEDULE" />
 

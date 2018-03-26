@@ -139,8 +139,8 @@ tools:context="is416.is416.CatMainActivity">
                     android:layout_alignParentStart="true"
                     android:onClick="goTask"
                     android:scaleType="centerCrop"
-                    android:text="Task"
-                    app:srcCompat="@drawable/placeholder_square" />
+                    app:srcCompat="@drawable/placeholder_square"
+                    android:background="@drawable/task_btn"/>
 
                 <Button
                     android:id="@+id/goSchedule"
@@ -149,8 +149,8 @@ tools:context="is416.is416.CatMainActivity">
                     android:layout_alignParentStart="true"
                     android:onClick="goWalk"
                     android:scaleType="centerCrop"
-                    android:text="Walk"
-                    app:srcCompat="@drawable/placeholder_square" />
+                    app:srcCompat="@drawable/placeholder_square"
+                    android:background="@drawable/walk_btn"/>
 
                 <Button
                     android:id="@+id/goGame"
@@ -159,8 +159,8 @@ tools:context="is416.is416.CatMainActivity">
                     android:layout_alignParentStart="true"
                     android:onClick="goPlay"
                     android:scaleType="centerCrop"
-                    android:text="Play"
-                    app:srcCompat="@drawable/placeholder_square" />
+                    app:srcCompat="@drawable/placeholder_square"
+                    android:background="@drawable/game_btn"/>
             </LinearLayout>
 
 
