@@ -1,5 +1,7 @@
 package is416.is416.Schedule;
 
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,7 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import is416.is416.Database.Appointment;
 import is416.is416.Database.Database;
 import is416.is416.R;
 
@@ -19,9 +23,12 @@ public class ScheduleActivity extends AppCompatActivity {
     private Database myDb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
         myDb = Database.getInstance(this);
+        
         final ListView lv = findViewById(R.id.schedule_list);
         SQLiteDatabase db = myDb.getWritableDatabase();
         Log.d("Database", ""+db);
@@ -62,9 +69,56 @@ public class ScheduleActivity extends AppCompatActivity {
                     }
                 });
                 ad.show();
-                return false;
+                return true;
             }
         });
 
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle args = new Bundle();
+                DialogFragment newFragment = new UpdateApptDialog();
+
+                View childView = lv.getChildAt(position);
+                // retrieve all the text views
+                TextView tvdate = (TextView) childView.findViewById(R.id.date);
+                TextView tvtime = (TextView) childView.findViewById(R.id.time);
+                TextView tvdetails = (TextView) childView.findViewById(R.id.details);
+                TextView tvid = (TextView)childView.findViewById(R.id.appt_id);
+
+                // set variables based on text view contents
+                String date = tvdate.getText().toString();
+                String time = tvtime.getText().toString();
+                String details = tvdetails.getText().toString();
+                Integer appId = Integer.parseInt(tvid.getText().toString());
+
+                // set arguments
+                args.putInt("id", appId);
+                args.putString("date",date);
+                args.putString("time", time);
+                args.putString("details", details);
+
+                // sent arguments to fragment
+                newFragment.setArguments(args);
+                FragmentManager fm = getFragmentManager();
+                newFragment.show(fm, "UPDATE DIALOG");
+
+                // set fragment contents
+                // fragment to update db on update click
+
+            }
+        });
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        final ListView lv = findViewById(R.id.schedule_list);
+        SQLiteDatabase db = myDb.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT  * FROM appointments", null);
+        final ScheduleListAdapter adapter = new ScheduleListAdapter(this, cursor);
+        cursor =myDb.getAll();
+        lv.setAdapter(adapter);
+    }
+
 }

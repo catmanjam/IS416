@@ -23,17 +23,16 @@ import is416.is416.R;
 
 public class ScheduleListAdapter extends CursorAdapter {
     private Context context;
-    private List<Appointment> list;
 
-    static class ViewHolder{
-
+    static class ViewHolder {
+        TextView id;
         TextView date;
         TextView time;
         TextView details;
         ImageView image;
     }
 
-    public ScheduleListAdapter(Context context, Cursor cursor){
+    public ScheduleListAdapter(Context context, Cursor cursor) {
         super(context, cursor, 0);
     }
 
@@ -46,12 +45,14 @@ public class ScheduleListAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = new ViewHolder();
         viewHolder.date = (TextView) view.findViewById(R.id.date);
-        viewHolder.time = (TextView)view.findViewById(R.id.time);
+        viewHolder.time = (TextView) view.findViewById(R.id.time);
         viewHolder.details = (TextView) view.findViewById(R.id.details);
+        viewHolder.id = (TextView) view.findViewById(R.id.appt_id);
 
         viewHolder.date.setText(cursor.getString(cursor.getColumnIndexOrThrow("date")));
         viewHolder.time.setText(cursor.getString(cursor.getColumnIndexOrThrow("time")));
         viewHolder.details.setText(cursor.getString(cursor.getColumnIndexOrThrow("details")));
-        view.setTag(viewHolder);
+        viewHolder.id.setText(cursor.getString(cursor.getColumnIndexOrThrow("_id")));
     }
 }
+

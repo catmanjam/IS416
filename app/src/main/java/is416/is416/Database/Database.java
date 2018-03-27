@@ -16,7 +16,7 @@ import java.util.List;
 public class Database extends SQLiteOpenHelper {
 
     private static Database dbInstance;
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "reminder";
 
     // Apporintment Table and Columns names
@@ -47,6 +47,7 @@ public class Database extends SQLiteOpenHelper {
                 + KEY_TIME + " DATETIME,"
                 + KEY_DETAILS + " TEXT" + ")";
         db.execSQL(CREATE_APPOINTMENTS_TABLE);
+
     }
 
     @Override
@@ -84,6 +85,15 @@ public class Database extends SQLiteOpenHelper {
                 cursor.getString(2), cursor.getString(3));
         // return contact
         return appt;
+    }
+
+    public void updateAppointment (Appointment appt) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_DATE, appt.getDate()); // Date Time
+        values.put(KEY_TIME, appt.getTime()); // Date Time
+        values.put(KEY_DETAILS, appt.getDetails()); // Details
+        db.update(TABLE_APPOINTMENTS, values, "_id = ? ", new String[] { Integer.toString(appt.getId()) } );
     }
 
     public List<Appointment> getAllAppointments() {
