@@ -54,16 +54,16 @@ tools:context="is416.is416.CatMainActivity">
                         android:layout_alignParentStart="true"
                         android:padding="10dp"
                         android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/placeholder_square" />
+                        app:srcCompat="@drawable/happiness_icon" />
 
-                    <ImageView
-                        android:id="@+id/happiness_bar"
-                        android:layout_width="match_parent"
+                    <ProgressBar
+                        android:layout_width="300dp"
                         android:layout_height="60dp"
                         android:layout_alignParentStart="true"
-                        android:padding="15dp"
                         android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/placeholder_powerbar" />
+                        app:srcCompat="@drawable/placeholder_powerbar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:progressDrawable="@drawable/custom_progressbar" />
 
 
 
@@ -83,16 +83,18 @@ tools:context="is416.is416.CatMainActivity">
                         android:layout_alignParentStart="true"
                         android:padding="10dp"
                         android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/placeholder_square" />
+                        app:srcCompat="@drawable/steps_icon" />
 
-                    <ImageView
+                    <ProgressBar
                         android:id="@+id/walk_bar"
-                        android:layout_width="match_parent"
+                        android:layout_width="300dp"
                         android:layout_height="60dp"
                         android:layout_alignParentStart="true"
-                        android:padding="15dp"
                         android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/placeholder_powerbar" />
+                        app:srcCompat="@drawable/placeholder_powerbar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:progressDrawable="@drawable/custom_progressbar" />
+
                 </LinearLayout>
 
                 <RelativeLayout
