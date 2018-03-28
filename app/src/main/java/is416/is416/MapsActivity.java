@@ -140,8 +140,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onPolygonClick(Polygon polygon) {
                 Toast.makeText(getApplicationContext(),polygon.getId(),Toast.LENGTH_LONG).show();
-                Marker infoMarker = mMap.addMarker(new MarkerOptions()
-                );
             }
 
         });

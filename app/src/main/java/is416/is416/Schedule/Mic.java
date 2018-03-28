@@ -1,20 +1,15 @@
 package is416.is416.Schedule;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.JsonElement;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -31,7 +26,7 @@ import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
 import is416.is416.Database.Appointment;
-import is416.is416.Database.Database;
+import is416.is416.Database.ApptDatabase;
 
 /**
  * Created by Cheryl on 24/3/2018.
@@ -41,7 +36,7 @@ public class Mic implements AIListener {
     private AIService aiService;
     private static String CLIENT_ACCESS_TOKEN = "4ae9328c789d41af97d6f14d558dccab";
     private static String TAG = "Permission";
-    private Database myDb;
+    private ApptDatabase myDb;
     private Context context;
     private TextView questionView;
     private TextView answerView;
@@ -62,7 +57,7 @@ public class Mic implements AIListener {
                 AIConfiguration.RecognitionEngine.System);
         aiService = AIService.getService(context, config);
         aiService.setListener(this);
-        myDb = Database.getInstance(context);
+        myDb = ApptDatabase.getInstance(context);
     }
 
     public void micStartListening(){
