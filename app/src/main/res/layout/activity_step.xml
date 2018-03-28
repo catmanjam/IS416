@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="150px">
             <TextView
+                android:textColor="#FFFFFF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="30sp"
@@ -22,6 +23,7 @@
                 android:text="Steps Today: "/>
 
             <TextView
+                android:textColor="#FFFFFF"
                 android:id="@+id/stepsTdy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

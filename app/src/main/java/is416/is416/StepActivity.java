@@ -2,6 +2,8 @@ package is416.is416;
 
 import android.app.Fragment;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -70,17 +73,22 @@ public class StepActivity extends AppCompatActivity {
             dates.add(date);
         }
         BarDataSet barDataSet = new BarDataSet(barEntries, "Steps");
+       // barDataSet.setValueTextColor(16777215);
         BarData data = new BarData(barDataSet);
         data.setBarWidth(0.7f);
         barChart.setData(data);
 
-        YAxis yLeftAxis = barChart.getAxisLeft();
+        int yellowInt = ContextCompat.getColor(this, R.color.yellow);
         barChart.getAxisRight().setEnabled(false); // remove right axis
         barChart.getAxisLeft().setAxisMinimum(0);
+        barChart.getAxisLeft().setTextColor(yellowInt);
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setGranularity(1f);
         xAxis.setValueFormatter(new MyXAxisValueFormatter(dates));
+        xAxis.setTextColor(yellowInt);
+        int whiteInt = ContextCompat.getColor(this, R.color.offWhite);
+        barChart.getLegend().setTextColor(whiteInt);
 
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         barChart.getDescription().setEnabled(false);

@@ -109,6 +109,7 @@ tools:context="is416.is416.CatMainActivity">
                         />
 
                     <me.grantland.widget.AutofitTextView
+                        android:textColor="#454545"
                         android:maxLines="3"
                         android:textSize="30sp"
                         android:paddingRight="15dp"
@@ -192,6 +193,7 @@ tools:context="is416.is416.CatMainActivity">
 
 
                 <me.grantland.widget.AutofitTextView
+                    android:textColor="#454545"
                     android:maxLines="3"
                     android:textSize="32sp"
                     android:id="@+id/answer"

@@ -3,27 +3,27 @@
     <!--shadow to bottom and right-->
     <!--by pushing offset from top and left-->
     <item
-        android:left="2dp"
+        android:left="0dp"
         android:right="0dp"
         android:top="2dp"
         android:bottom="0dp">
         <shape
             android:shape="rectangle">
             <corners android:radius="5dp" />
-            <solid android:color="#D3D3D3" />
+            <solid android:color="#c15252" />
         </shape>
     </item>
     <!--foreground-color to cover over non-shadow-->
     <!--need to also offset in opposite direction-->
     <item
         android:left="0dp"
-        android:right="3dp"
+        android:right="0dp"
         android:top="0dp"
-        android:bottom="3dp">
+        android:bottom="4dp">
         <shape
             android:shape="rectangle">
             <corners android:radius="5dp" />
-            <solid android:color="@android:color/white"/>
+            <solid android:color="#DD4C39"/>
         </shape>
     </item>
 </layer-list>

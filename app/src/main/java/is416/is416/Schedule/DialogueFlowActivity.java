@@ -68,7 +68,7 @@ public class DialogueFlowActivity extends AppCompatActivity implements AIListene
     protected void onCreate(Bundle savedInstanceState) {
         myDb= ApptDatabase.getInstance(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dialogue_flow);
+       // setContentView(R.layout.activity_dialogue_flow);
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
         listenButton = (Button) findViewById(R.id.listenButton);
         resultTextView = (TextView) findViewById(R.id.resultTextView);

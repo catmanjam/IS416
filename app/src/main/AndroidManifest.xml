@@ -25,11 +25,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.AppCompat.Light">
-        <activity android:name=".WalkActivity" />
-        <activity android:name=".Schedule.ScheduleActivity" />
-        <activity android:name=".GameActivity" />
-        <activity android:name=".Schedule.DialogueFlowActivity" />
-        <activity android:name=".CatMainActivity">
+        <activity android:name=".WalkActivity" android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".Schedule.ScheduleActivity" android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".StepActivity" android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+
+        <activity android:name=".GameActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".Schedule.DialogueFlowActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".CatMainActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -56,9 +61,8 @@
         <activity
             android:name=".MapsActivity"
         android:label="@string/title_activity_maps"></activity>
-        <activity android:name=".StepActivity">
 
-        </activity>
+
     </application>
 
 </manifest>
