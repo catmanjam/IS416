@@ -14,26 +14,23 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import is416.is416.Database.Appointment;
-import is416.is416.Database.Database;
+import is416.is416.Database.ApptDatabase;
 import is416.is416.R;
 
 public class ScheduleActivity extends AppCompatActivity {
 
-    private Database myDb;
+    private ApptDatabase myDb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
-        myDb = Database.getInstance(this);
-        
-        final ListView lv = findViewById(R.id.schedule_list);
-        SQLiteDatabase db = myDb.getWritableDatabase();
-        Log.d("Database", ""+db);
+        myDb = ApptDatabase.getInstance(this);
 
-        Cursor cursor = db.rawQuery("SELECT  * FROM appointments", null);
+        final ListView lv = findViewById(R.id.schedule_list);
+
+        Cursor cursor = myDb.getAllAppointments();
 
         final ScheduleListAdapter adapter = new ScheduleListAdapter(this, cursor);
         lv.setAdapter(adapter);
@@ -53,10 +50,10 @@ public class ScheduleActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         SQLiteDatabase db = myDb.getWritableDatabase();
                         Cursor cursor = db.rawQuery("SELECT  * FROM appointments", null);
-                        //Delete of record from Database and List view.
+                        //Delete of record from ApptDatabase and List view.
                         cursor.moveToPosition(pos);
-                        myDb.delete(cursor.getInt(cursor.getColumnIndex(Database.KEY_ID)));
-                        cursor=myDb.getAll();
+                        myDb.delete(cursor.getInt(cursor.getColumnIndex(ApptDatabase.KEY_ID)));
+                        cursor = myDb.getAllAppointments();
                         adapter.swapCursor(cursor);
                         lv.setAdapter(adapter);
                     }
@@ -115,9 +112,9 @@ public class ScheduleActivity extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
         final ListView lv = findViewById(R.id.schedule_list);
         SQLiteDatabase db = myDb.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT  * FROM appointments", null);
+        Cursor cursor = myDb.getAllAppointments();;
         final ScheduleListAdapter adapter = new ScheduleListAdapter(this, cursor);
-        cursor =myDb.getAll();
+
         lv.setAdapter(adapter);
     }
 

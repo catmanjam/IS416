@@ -2,7 +2,6 @@ package is416.is416.Schedule;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -12,7 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import is416.is416.Database.Appointment;
-import is416.is416.Database.Database;
+import is416.is416.Database.ApptDatabase;
 import is416.is416.R;
 
 /**
@@ -52,7 +51,7 @@ public class UpdateApptDialog extends DialogFragment {
                 .setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        Database myDb = Database.getInstance(null);
+                        ApptDatabase myDb = ApptDatabase.getInstance(null);
                         myDb.updateAppointment(new Appointment(appointmentId,dialog_date.getText().toString(),dialog_time.getText().toString(), dialog_title.getText().toString()));
 
                     }

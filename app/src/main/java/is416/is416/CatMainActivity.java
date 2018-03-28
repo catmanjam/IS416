@@ -8,17 +8,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import is416.is416.Database.Database;
-import is416.is416.GameActivity;
-import is416.is416.R;
-import is416.is416.Schedule.DialogueFlowActivity;
 import is416.is416.Schedule.Mic;
 import is416.is416.Schedule.ScheduleActivity;
-import is416.is416.WalkActivity;
 import me.grantland.widget.AutofitHelper;
 
 public class CatMainActivity extends AppCompatActivity {
@@ -76,5 +70,10 @@ public class CatMainActivity extends AppCompatActivity {
 
     public void micClick(View view) {
         mic.micStartListening();
+    }
+
+    public void goStep(View view) {
+        Intent stepLaunch = new Intent(this, StepActivity.class);
+        startActivity(stepLaunch);
     }
 }

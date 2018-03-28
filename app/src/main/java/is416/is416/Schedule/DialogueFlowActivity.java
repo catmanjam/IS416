@@ -34,7 +34,7 @@ import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 import ai.api.model.Result;
 import is416.is416.Database.Appointment;
-import is416.is416.Database.Database;
+import is416.is416.Database.ApptDatabase;
 import is416.is416.R;
 
 
@@ -43,7 +43,7 @@ public class DialogueFlowActivity extends AppCompatActivity implements AIListene
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 101;
     private static String CLIENT_ACCESS_TOKEN = "4ae9328c789d41af97d6f14d558dccab";
     private static String TAG = "Permission";
-    private Database myDb;
+    private ApptDatabase myDb;
     private Button listenButton;
     TextView resultTextView, outputText;
 
@@ -55,7 +55,6 @@ public class DialogueFlowActivity extends AppCompatActivity implements AIListene
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        myDb= Database.getInstance(this);
         switch (requestCode){
             case REQUEST_RECORD_AUDIO_PERMISSION:
                 permissionToRecordAccepted  = grantResults[0] == PackageManager.PERMISSION_GRANTED;
@@ -67,8 +66,9 @@ public class DialogueFlowActivity extends AppCompatActivity implements AIListene
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        myDb= ApptDatabase.getInstance(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dialogue_flow);
+       // setContentView(R.layout.activity_dialogue_flow);
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
         listenButton = (Button) findViewById(R.id.listenButton);
         resultTextView = (TextView) findViewById(R.id.resultTextView);

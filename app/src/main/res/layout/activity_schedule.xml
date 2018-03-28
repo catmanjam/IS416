@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:background="#DD4C39"
+            android:background="@drawable/list_title_bg"
             android:layout_width="match_parent"
             android:textColor="#FFFFFF"
             android:text="My Schedule"
@@ -24,6 +24,7 @@
             android:layout_height="45dp" />
 
         <ListView
+            android:paddingTop="3dp"
             android:id="@+id/schedule_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

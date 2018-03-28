@@ -13,10 +13,10 @@ import java.util.List;
  * Created by Cheryl on 18/3/2018.
  */
 
-public class Database extends SQLiteOpenHelper {
+public class ApptDatabase extends SQLiteOpenHelper {
 
-    private static Database dbInstance;
-    private static final int DATABASE_VERSION = 3;
+    private static ApptDatabase dbInstance;
+    private static final int DATABASE_VERSION = 6;
     private static final String DATABASE_NAME = "reminder";
 
     // Apporintment Table and Columns names
@@ -26,16 +26,16 @@ public class Database extends SQLiteOpenHelper {
     public static final String KEY_TIME = "time";
     public static final String KEY_DETAILS = "details";
 
-    public Database(Context context) {
+    public ApptDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    public static synchronized Database getInstance(Context context) {
+    public static synchronized ApptDatabase getInstance(Context context) {
         // Use the application context, which will ensure that you
         // don't accidentally leak an Activity's context.
         // See this article for more information: http://bit.ly/6LRzfx
         if (dbInstance == null) {
-            dbInstance = new Database(context.getApplicationContext());
+            dbInstance = new ApptDatabase(context.getApplicationContext());
         }
         return dbInstance;
     }
@@ -96,28 +96,6 @@ public class Database extends SQLiteOpenHelper {
         db.update(TABLE_APPOINTMENTS, values, "_id = ? ", new String[] { Integer.toString(appt.getId()) } );
     }
 
-    public List<Appointment> getAllAppointments() {
-        List<Appointment> apptList = new ArrayList<Appointment>();
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + TABLE_APPOINTMENTS;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                Appointment appt = new Appointment(Integer.parseInt(cursor.getString(0)),cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3));
-                // Adding contact to list
-                apptList.add(appt);
-            } while (cursor.moveToNext());
-        }
-
-        // return contact list
-        return apptList;
-    }
-
     public void delete(int anInt) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -125,7 +103,7 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
-    public Cursor getAll(){
+    public Cursor getAllAppointments(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT  * FROM "+TABLE_APPOINTMENTS, null);
         return c;

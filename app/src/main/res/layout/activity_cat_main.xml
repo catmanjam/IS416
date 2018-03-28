@@ -109,6 +109,7 @@ tools:context="is416.is416.CatMainActivity">
                         />
 
                     <me.grantland.widget.AutofitTextView
+                        android:textColor="#454545"
                         android:maxLines="3"
                         android:textSize="30sp"
                         android:paddingRight="15dp"
@@ -163,6 +164,16 @@ tools:context="is416.is416.CatMainActivity">
                     android:scaleType="centerCrop"
                     app:srcCompat="@drawable/placeholder_square"
                     android:background="@drawable/game_btn"/>
+
+                <Button
+                    android:id="@+id/goSteps"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentStart="true"
+                    android:onClick="goStep"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/placeholder_square"
+                    android:background="@drawable/game_btn"/>
             </LinearLayout>
 
 
@@ -182,6 +193,7 @@ tools:context="is416.is416.CatMainActivity">
 
 
                 <me.grantland.widget.AutofitTextView
+                    android:textColor="#454545"
                     android:maxLines="3"
                     android:textSize="32sp"
                     android:id="@+id/answer"
