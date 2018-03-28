@@ -1,5 +1,6 @@
 package is416.is416;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
@@ -7,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.Location;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -19,6 +22,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.GoogleMap.*;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlay;
@@ -44,7 +48,7 @@ import java.util.List;
 
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.fromResource;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnMyLocationButtonClickListener, OnMyLocationClickListener {
 
     private GoogleMap mMap;
 
@@ -99,7 +103,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //    }
 
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -114,17 +117,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         final List<List<LatLng>> polygonMasterList = new ArrayList<>();
 
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(),R.drawable.presentvector);
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.presentvector);
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
-        LatLng singapore = new LatLng(1.296568,103.852119);
+        LatLng singapore = new LatLng(1.296568, 103.852119);
         MarkerOptions smuMarker = new MarkerOptions()
                 .position(singapore)
                 .title("Marker in SMU")
-                .icon(BitmapDescriptorFactory.fromBitmap(Bitmap.createScaledBitmap(bmp,100,100,false)));
+                .icon(BitmapDescriptorFactory.fromBitmap(Bitmap.createScaledBitmap(bmp, 100, 100, false)));
 
-        mMap.addMarker(smuMarker);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(singapore,16.0f));
+        mMap.setMyLocationEnabled(true);
+//        mMap.setOnMyLocationButtonClickListener(this);
+//        mMap.setOnMyLocationClickListener(this);
+//        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mMap.addMarker(smuMarker);
 
 //        List<Polygon> list = new ArrayList<>();
 
@@ -194,6 +211,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public boolean onMarkerClick(Marker marker) {
 //                System.out.println("Test"+PolyUtil.containsLocation(marker.getPosition(),polygonMasterList,false));
+                DialogFragment dlFrag = new RewardsWindowDialog();
+                FragmentManager fm = getFragmentManager();
+                dlFrag.show(fm,"");
+                marker.hideInfoWindow();
                 return false;
             }
         });
@@ -219,4 +240,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    @Override
+    public boolean onMyLocationButtonClick() {
+        return false;
+    }
+
+    @Override
+    public void onMyLocationClick(@NonNull Location location) {
+
+    }
 }

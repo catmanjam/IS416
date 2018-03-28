@@ -14,8 +14,6 @@ import com.google.gson.JsonObject;
 import java.io.InputStream;
 import java.util.Scanner;
 
-import is416.is416.Database.Database;
-
 /**
  * Created by aispa on 3/27/2018.
  */
