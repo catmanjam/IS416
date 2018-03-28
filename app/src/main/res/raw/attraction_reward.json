@@ -1,0 +1,29 @@
+{
+  "data":
+  [
+    {
+      "PolyId": "Polygon2",
+      "Name": "Singapore Art Museum",
+      "RewardAmt": "10",
+      "RewardType": "HP"
+    },
+    {
+      "PolyId": "Polygon3",
+      "Name": "Singapore History Gallery",
+      "RewardAmt": "10",
+      "RewardType": "HP"
+    },
+    {
+      "PolyId": "Polygon1",
+      "Name": "Fort Canning Memorial",
+      "RewardAmt": "10",
+      "RewardType": "HP"
+    },
+    {
+      "PolyId": "Polygon0",
+      "Name": "Peranakan Museum",
+      "RewardAmt": "10",
+      "RewardType": "HP"
+    }
+  ]
+}

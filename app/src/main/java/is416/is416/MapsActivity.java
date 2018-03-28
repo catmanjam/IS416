@@ -1,5 +1,8 @@
 package is416.is416;
 
+import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,17 +24,23 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
+import com.google.maps.android.PolyUtil;
+import com.google.maps.android.data.Geometry;
 import com.google.maps.android.data.geojson.GeoJsonFeature;
 import com.google.maps.android.data.geojson.GeoJsonLayer;
+import com.google.maps.android.data.geojson.GeoJsonLineString;
 import com.google.maps.android.data.geojson.GeoJsonPolygon;
 import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.fromResource;
 
@@ -47,6 +56,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
 
 //        View mDecorView = getWindow().getDecorView();
 //        // Hide both the navigation bar and the status bar.
@@ -102,6 +112,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        final List<List<LatLng>> polygonMasterList = new ArrayList<>();
 
         Bitmap bmp = BitmapFactory.decodeResource(getResources(),R.drawable.presentvector);
         // Add a marker in Sydney and move the camera
@@ -115,18 +126,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(smuMarker);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(singapore,16.0f));
 
+//        List<Polygon> list = new ArrayList<>();
+
         try {
             GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.attractions,getApplicationContext());
+            LatLngBounds.Builder builder;
+
             for (GeoJsonFeature feature : layer.getFeatures()) {
                 // do something to the feature
                 if (feature!=null){
+
+                    builder = LatLngBounds.builder();
                     GeoJsonPolygonStyle polygon = layer.getDefaultPolygonStyle();
                     if (polygon!=null){
-                        polygon.setFillColor(Color.RED);
-                        feature.setPolygonStyle(polygon);
+                        Geometry geometry = feature.getGeometry();
+                        GeoJsonPolygon pol = (GeoJsonPolygon) geometry;
+                        List<? extends List<LatLng>> lists =
+                                ((GeoJsonPolygon) geometry).getCoordinates();
+
+                        // Feed the coordinates to the builder.
+
+                        for (List<LatLng> list : lists) {
+                            for (LatLng latLng : list) {
+                                builder.include(latLng);
+                            }
+                            polygonMasterList.add(list);
+                        }
+
+                        LatLngBounds polyBounds = builder.build();
+                        mMap.addMarker(new MarkerOptions()
+                                .position(polyBounds.getCenter())
+                                .title("Polygon"+(polygonMasterList.size()-1))
+                        );
+//                        System.out.print("Poly coords"+feature.getId());
+                        polygon.setFillColor(Color.GREEN);
+
+//                        feature.setPolygonStyle(polygon);
+//                        mMap.addMarker(new MarkerOptions().position(polyBounds.getCenter()));
                     }
+
                 }
             }
+
             layer.addLayerToMap();
 //        getDeviceLocation();
 
@@ -138,13 +179,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
             @Override
-            public void onPolygonClick(Polygon polygon) {
+            public void onPolygonClick(final Polygon polygon) {
                 Toast.makeText(getApplicationContext(),polygon.getId(),Toast.LENGTH_LONG).show();
-                Marker infoMarker = mMap.addMarker(new MarkerOptions()
-                );
+                DialogFragment dlFrag = new RewardsWindowDialog();
+                FragmentManager fm = getFragmentManager();
+                dlFrag.show(fm,"");
             }
 
         });
+
+//        mMap.setInfoWindowAdapter();
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+//                System.out.println("Test"+PolyUtil.containsLocation(marker.getPosition(),polygonMasterList,false));
+                return false;
+            }
+        });
+
+
+//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(LatLng latLng) {
+//                if (PolyUtil.containsLocation(latLng,polygon.getPoints(),true)){
+//                    mMap.addMarker(new MarkerOptions().position(latLng));
+//                    Toast.makeText(getApplicationContext(),"I clicked inside",Toast.LENGTH_LONG);
+//                }
+//            }
+//        });
+
 
 //        mMap.animateCamera(CameraUpdateFa/ctory.zoomTo(2.5f));
 
@@ -154,4 +218,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        mMap.addGroundOverlay(presentBox);
 
     }
+
 }
