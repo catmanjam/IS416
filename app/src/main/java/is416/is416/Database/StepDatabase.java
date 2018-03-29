@@ -107,7 +107,7 @@ public class StepDatabase extends SQLiteOpenHelper {
         return c;
     }
 
-    public Cursor getStepsToday(Calendar today){
+    public int getStepsToday(Calendar today){
         today.setTimeZone(SG);
         SQLiteDatabase db = this.getReadableDatabase();
         Integer day = today.get(today.DAY_OF_MONTH);
@@ -116,7 +116,12 @@ public class StepDatabase extends SQLiteOpenHelper {
         today.set(Calendar.MILLISECOND,0);
         today.set(year, month, day, 0,0,0);
         Cursor c = db.rawQuery("SELECT  * FROM "+ TABLE_STEPS + " WHERE " +  KEY_DATE + " = " + today.getTimeInMillis(), null);
-        return c;
+        c.moveToNext();
+        int stepsNow = 0;
+        if (c.getCount()>0){
+            stepsNow = c.getInt(2);
+        }
+        return stepsNow;
     }
 
 

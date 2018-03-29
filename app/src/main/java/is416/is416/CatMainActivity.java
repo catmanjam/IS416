@@ -14,7 +14,10 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.Timer;
+
 import is416.is416.Database.StatsDatabase;
+import is416.is416.ProgressBar.Depleter;
 import is416.is416.Schedule.Mic;
 import is416.is416.Schedule.ScheduleActivity;
 import me.grantland.widget.AutofitHelper;
@@ -52,6 +55,7 @@ public class CatMainActivity extends AppCompatActivity {
         View speechBubbleView = findViewById(R.id.answerbubble);
         View questionBubbleView = findViewById(R.id.questionBubble);
 
+    // ----- PROGRESS BAR INITIALISATION AND SETTING -----
         ProgressBar happyBar = (ProgressBar) findViewById(R.id.happyBar) ;
         ProgressBar stepsBar = (ProgressBar) findViewById(R.id.walkBar) ;
 
@@ -61,6 +65,11 @@ public class CatMainActivity extends AppCompatActivity {
         happyBar.setProgress(happy);
         stepsBar.setProgress(steps);
 
+    // ----- PROGRESS BAR TIMER UPDATE -----
+        Timer timer = new Timer();
+        timer.schedule(new Depleter(happyBar, stepsBar), 0, 5000);
+
+    // ----- WRAP TEXT for CAT ANSWER VIEW -----
         AutofitHelper autofitHelper = AutofitHelper.create(answerView);
         autofitHelper.setTextSize(answerView.getTextSize());
 

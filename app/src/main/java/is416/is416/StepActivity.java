@@ -48,13 +48,9 @@ public class StepActivity extends AppCompatActivity {
         StepDatabase stepDatabase = StepDatabase.getInstance(this);
         Calendar now = Calendar.getInstance();
         now.setTimeZone(SG);
+
         TextView stepTdy = findViewById(R.id.stepsTdy);
-        Cursor cTdy = stepDatabase.getStepsToday(now);
-        cTdy.moveToNext();
-        int stepsNow = 0;
-        if (cTdy.getCount()>0){
-            stepsNow = cTdy.getInt(2);
-        }
+        int stepsNow = stepDatabase.getStepsToday(now);
         stepTdy.setText(Integer.toString(stepsNow));
 
         barChart = (BarChart) findViewById(R.id.barGraph);

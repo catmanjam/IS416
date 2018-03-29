@@ -58,7 +58,7 @@ tools:context="is416.is416.CatMainActivity">
 
                     <ProgressBar
                         android:id="@+id/happyBar"
-                        android:max="100"
+                        android:max="500"
                         android:layout_width="300dp"
                         android:layout_height="60dp"
                         android:layout_alignParentStart="true"
@@ -89,7 +89,7 @@ tools:context="is416.is416.CatMainActivity">
 
                     <ProgressBar
                         android:id="@+id/walkBar"
-                        android:max="100"
+                        android:max="500"
                         android:layout_width="300dp"
                         android:layout_height="60dp"
                         android:layout_alignParentStart="true"
