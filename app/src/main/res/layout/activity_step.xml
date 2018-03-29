@@ -5,12 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="is416.is416.StepActivity">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/title"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="150px">
@@ -38,6 +40,31 @@
             android:id="@+id/barGraph"
             android:layout_width="match_parent"
             android:layout_height="400dp"></com.github.mikephil.charting.charts.BarChart>
+
+        <ImageView
+            android:layout_below="@id/barGraph"
+            android:id="@+id/buffer"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
+
+        <RelativeLayout
+            android:layout_below="@id/buffer"
+            android:background="#CCF9FB"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/putCatLeftGif"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#CCF9FB" />
+            <ImageView
+                android:id="@+id/putCatRightGif"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#CCF9FB" />
+        </RelativeLayout>
     </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>

@@ -57,6 +57,8 @@ tools:context="is416.is416.CatMainActivity">
                         app:srcCompat="@drawable/happiness_icon" />
 
                     <ProgressBar
+                        android:id="@+id/happyBar"
+                        android:max="100"
                         android:layout_width="300dp"
                         android:layout_height="60dp"
                         android:layout_alignParentStart="true"
@@ -86,7 +88,8 @@ tools:context="is416.is416.CatMainActivity">
                         app:srcCompat="@drawable/steps_icon" />
 
                     <ProgressBar
-                        android:id="@+id/walk_bar"
+                        android:id="@+id/walkBar"
+                        android:max="100"
                         android:layout_width="300dp"
                         android:layout_height="60dp"
                         android:layout_alignParentStart="true"

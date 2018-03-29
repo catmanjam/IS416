@@ -18,16 +18,17 @@ import java.util.TimeZone;
 
 public class StepDatabase extends SQLiteOpenHelper {
     private static StepDatabase dbInstance;
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 8;
     private static final String DATABASE_NAME = "reminder";
 
     private static final TimeZone SG = TimeZone.getTimeZone("Singapore");
 
     public static final String TABLE_STEPS = "steps";
-    // Apporintment Table and Columns names
+    // Steps Table and Columns names
     public static final String KEY_ID = "_id";
     public static final String KEY_DATE = "date";
     public static final String KEY_COUNT = "stepCount";
+
 
     public StepDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

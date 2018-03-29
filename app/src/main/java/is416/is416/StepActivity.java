@@ -1,32 +1,27 @@
 package is416.is416;
 
-import android.app.Fragment;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
-import java.lang.reflect.Array;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -35,14 +30,21 @@ import is416.is416.Database.StepDatabase;
 public class StepActivity extends AppCompatActivity {
     private static final TimeZone SG = TimeZone.getTimeZone("Singapore");
     private BarChart barChart;
+    private ImageView imgViewLeft;
+    private ImageView imgViewRight;
+    private Animation catwalkLeftAnimation;
+    private Animation catwalkRightAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step);
 
-        // SET TODAY'S STEP COUNT
+        // ADD CAT ANIMATION
+        loadImageView();
+        walkRight();
 
+        // SET TODAY'S STEP COUNT
         StepDatabase stepDatabase = StepDatabase.getInstance(this);
         Calendar now = Calendar.getInstance();
         now.setTimeZone(SG);
@@ -72,6 +74,7 @@ public class StepActivity extends AppCompatActivity {
             // ADD COLUMNS
             dates.add(date);
         }
+
         BarDataSet barDataSet = new BarDataSet(barEntries, "Steps");
        // barDataSet.setValueTextColor(16777215);
         BarData data = new BarData(barDataSet);
@@ -81,9 +84,11 @@ public class StepActivity extends AppCompatActivity {
         int yellowInt = ContextCompat.getColor(this, R.color.yellow);
         barChart.getAxisRight().setEnabled(false); // remove right axis
         barChart.getAxisLeft().setAxisMinimum(0);
+        barChart.getAxisLeft().setTextSize(13f);
         barChart.getAxisLeft().setTextColor(yellowInt);
 
         XAxis xAxis = barChart.getXAxis();
+        xAxis.setTextSize(13f);
         xAxis.setGranularity(1f);
         xAxis.setValueFormatter(new MyXAxisValueFormatter(dates));
         xAxis.setTextColor(yellowInt);
@@ -94,6 +99,72 @@ public class StepActivity extends AppCompatActivity {
         barChart.getDescription().setEnabled(false);
     }
 
+    private void loadImageView(){
+        imgViewLeft = (ImageView) findViewById(R.id.putCatLeftGif);
+        Glide.with(this)
+                .load(R.drawable.catwalk_left)
+                .dontAnimate()
+                .into(new GlideDrawableImageViewTarget(imgViewLeft));
+
+        imgViewRight = (ImageView) findViewById(R.id.putCatRightGif);
+        Glide.with(this)
+                .load(R.drawable.catwalk_right2)
+                .dontAnimate()
+                .into(new GlideDrawableImageViewTarget(imgViewRight));
+
+        // ADD ANIMATION
+        catwalkLeftAnimation = AnimationUtils.loadAnimation(this, R.anim.move_left);
+        catwalkLeftAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                //  imgViewLeft.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                imgViewLeft.setVisibility(View.INVISIBLE);
+                walkRight();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        catwalkRightAnimation = AnimationUtils.loadAnimation(this, R.anim.move_right);
+        catwalkRightAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                //imgViewRight.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                imgViewRight.setVisibility(View.INVISIBLE);
+                walkLeft();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+    }
+
+    public void walkLeft(){
+        imgViewLeft.startAnimation(catwalkLeftAnimation);
+    }
+
+    public void walkRight(){
+        imgViewRight.startAnimation(catwalkRightAnimation);
+    }
 
     static class MyXAxisValueFormatter implements IAxisValueFormatter {
 
@@ -117,11 +188,3 @@ public class StepActivity extends AppCompatActivity {
     }
 
 }
-       // barChart.getAxisLeft().setValueFormatter(new MyYAxisValueFormatter()); // set Y axis whole number only
-//    static class MyYAxisValueFormatter implements IAxisValueFormatter  {
-//
-//        @Override
-//        public String getFormattedValue(float value, AxisBase axis) {
-//            return String.valueOf((int)value);
-//        }
-//    };
