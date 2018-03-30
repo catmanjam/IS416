@@ -35,9 +35,10 @@
         android:id="@+id/howtoplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:layout_below="@+id/catbg"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="11dp"
+        android:textColor="#363636"
         android:text="How to play:"
         android:textStyle="bold" />
 
@@ -91,6 +92,14 @@
             <!--tools:paddingLeft="15dp" />-->
     <!--</GridLayout>-->
 
+    <ImageView
+        android:id="@+id/howto"
+        android:layout_width="300dp"
+        android:layout_height="130dp"
+        android:layout_below="@+id/howtoplay"
+        android:layout_alignStart="@+id/catbg"
+        app:srcCompat="@drawable/howto" />
+
     <Button
         android:id="@+id/gameStart"
         android:layout_width="300dp"
@@ -101,6 +110,55 @@
         android:onClick="startGame"
         android:text="Start"
         android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/gameoverText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gameTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="74dp"
+        android:text="Game Over!"
+        android:textAlignment="center"
+        android:textColor="#363636"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/gameoverText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gameoverText"
+        android:layout_centerHorizontal="true"
+        android:text="Try Again?"
+        android:textAlignment="center"
+        android:textColor="#363636"
+        android:textSize="20sp"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/replay"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_above="@+id/returnHome"
+        android:layout_centerHorizontal="true"
+        android:onClick="startGame"
+        android:text="Play Again"
+        android:textSize="20sp"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/returnHome"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/howtoplay"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:onClick="goHome"
+        android:text="Back to Main"
+        android:textSize="20sp"
+        android:visibility="invisible" />
 
 
 </RelativeLayout>
