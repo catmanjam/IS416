@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <TextView
+        android:id="@+id/titleName"
         android:gravity="center"
         android:text="Point of Interest Name"
         android:textStyle="bold"
@@ -19,6 +20,10 @@
         android:layout_height="250dp"
         android:src="@drawable/candy"
         android:id="@+id/reward_image"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:layout_gravity="center"

@@ -10,6 +10,8 @@ import android.util.Log;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import is416.is416.RewardsDatabase;
+
 /**
  * Created by Cheryl on 29/3/2018.
  */
@@ -35,6 +37,8 @@ public class StatsDatabase extends SQLiteOpenHelper {
     public static final SQLiteDatabase writableDb = null;
     public static final SQLiteDatabase readableDb = null;
 
+    //Handle other database
+    private static RewardsDatabase rwDB;
 
     public StatsDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -43,6 +47,7 @@ public class StatsDatabase extends SQLiteOpenHelper {
     public static synchronized StatsDatabase getInstance(Context context) {
         if (dbInstance == null) {
             dbInstance = new StatsDatabase(context.getApplicationContext());
+            rwDB = RewardsDatabase.getInstance(context.getApplicationContext());
         }
         return dbInstance;
     }
@@ -54,7 +59,32 @@ public class StatsDatabase extends SQLiteOpenHelper {
                 + KEY_ITEM + " TEXT,"
                 + KEY_VALUE + " INTEGER" + ")";
         db.execSQL(CREATE_STATS_TABLE);
-        initialiseDatabase(db);
+
+        String CREATE_STEPS_TABLE = "CREATE TABLE " + StepDatabase.TABLE_STEPS + "( "
+                + StepDatabase.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + StepDatabase.KEY_DATE + " REAL,"
+                + StepDatabase.KEY_COUNT + " INTEGER" + ")";
+        db.execSQL(CREATE_STEPS_TABLE);
+
+        String CREATE_APPOINTMENTS_TABLE = "CREATE TABLE " + ApptDatabase.TABLE_APPOINTMENTS + "( "
+                + ApptDatabase.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + ApptDatabase.KEY_DATE + " DATETIME,"
+                + ApptDatabase.KEY_TIME + " DATETIME,"
+                + ApptDatabase.KEY_DETAILS + " TEXT" + ")";
+        db.execSQL(CREATE_APPOINTMENTS_TABLE);
+
+        System.out.println("SADOYW)OEWDNOWJOIWQJDOHEWQ#EDWD");
+        String CREATE_REWARDS_TABLE = "CREATE TABLE " + RewardsDatabase.TABLE_REWARDS + "( "
+                + RewardsDatabase.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + RewardsDatabase.KEY_POLY + " TEXT,"
+                + RewardsDatabase.KEY_NAME + " TEXT,"
+                + RewardsDatabase.KEY_REWARDNAME + " TEXT" + ")";
+//                + KEY_REWARDAMT + " TEXT,"
+//                + KEY_REWARDTYPE + " TEXT" + ")";
+        db.execSQL(CREATE_REWARDS_TABLE);
+
+        rwDB.initializeDB(db);
+        this.initialiseDatabase(db);
     }
 
     public void initialiseDatabase(SQLiteDatabase db){

@@ -83,7 +83,7 @@ public class CatMainActivity extends AppCompatActivity {
     }
 
     public void goWalk(View view) {
-        Intent walkLaunch = new Intent(this, WalkActivity.class);
+        Intent walkLaunch = new Intent(this, MapsActivity.class);
         startActivity(walkLaunch);
     }
 

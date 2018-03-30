@@ -115,6 +115,7 @@ public class StepDatabase extends SQLiteOpenHelper {
         Integer year = today.get(today.YEAR);
         today.set(Calendar.MILLISECOND,0);
         today.set(year, month, day, 0,0,0);
+
         Cursor c = db.rawQuery("SELECT  * FROM "+ TABLE_STEPS + " WHERE " +  KEY_DATE + " = " + today.getTimeInMillis(), null);
         c.moveToNext();
         int stepsNow = 0;
