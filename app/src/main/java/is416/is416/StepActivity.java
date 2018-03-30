@@ -40,6 +40,7 @@ public class StepActivity extends AppCompatActivity {
 
 
 
+
         // ADD CAT ANIMATION
         loadImageView();
 
@@ -113,7 +114,6 @@ public class StepActivity extends AppCompatActivity {
                 .load(R.drawable.cateating)
                 .dontAnimate()
                 .into(new GlideDrawableImageViewTarget(imgViewLeft));
-
     }
 
     static class MyXAxisValueFormatter implements IAxisValueFormatter {

@@ -95,8 +95,11 @@ tools:context="is416.is416.CatMainActivity">
 
                 </LinearLayout>
 
+
+                <!--QUESTION SPEECH BUBBLE-->
                 <RelativeLayout
                     android:id="@+id/questionBubble"
+                    android:visibility="invisible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
@@ -108,14 +111,14 @@ tools:context="is416.is416.CatMainActivity">
                     <me.grantland.widget.AutofitTextView
                         android:id="@+id/question"
                         android:layout_width="250dp"
-                        android:layout_height="110dp"
+                        android:layout_height="115dp"
                         android:gravity="center"
                         android:maxLines="3"
                         android:paddingLeft="40dp"
                         android:paddingRight="15dp"
-                        android:text="set reminder for tomorrow 10 am"
+                        android:text=".."
                         android:textColor="#454545"
-                        android:textSize="30sp" />
+                        android:textSize="25sp" />
 
 
                 </RelativeLayout>
@@ -134,8 +137,8 @@ tools:context="is416.is416.CatMainActivity">
                 android:padding="5dp">
 
                 <Button
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
                     android:layout_alignParentStart="true"
                     android:layout_gravity="center"
                     android:layout_marginBottom="5dp"
@@ -145,8 +148,8 @@ tools:context="is416.is416.CatMainActivity">
 
                 <Button
                     android:id="@+id/goSchedule"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_alignParentStart="true"
                     android:layout_gravity="center"
                     android:layout_marginBottom="5dp"
@@ -155,8 +158,8 @@ tools:context="is416.is416.CatMainActivity">
 
                 <Button
                     android:id="@+id/goGame"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/game"
@@ -164,8 +167,8 @@ tools:context="is416.is416.CatMainActivity">
 
                 <Button
                     android:id="@+id/goSteps"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="5dp"
                     android:background="@drawable/chart"
@@ -179,9 +182,10 @@ tools:context="is416.is416.CatMainActivity">
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <!--android:visibility="invisible"-->
-            <!--Cat's Speech bubble-->
-            <RelativeLayout
 
+            <!--Answer Speech bubble-->
+            <RelativeLayout
+                android:visibility="invisible"
                 android:id="@+id/answerbubble"
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
@@ -233,7 +237,7 @@ tools:context="is416.is416.CatMainActivity">
                 <ImageView
                     android:id="@+id/maincat"
                     android:layout_width="match_parent"
-                    android:layout_height="270dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_below="@+id/answer"
                     android:layout_marginTop="35dp"
@@ -246,6 +250,7 @@ tools:context="is416.is416.CatMainActivity">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingRight="10dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:paddingBottom="8dp">
@@ -255,7 +260,7 @@ tools:context="is416.is416.CatMainActivity">
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentRight="true"
                     android:background="@drawable/microphone"
                     android:onClick="micClick"
                     android:padding="10dp" />

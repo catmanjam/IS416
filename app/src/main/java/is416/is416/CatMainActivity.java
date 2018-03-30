@@ -35,7 +35,9 @@ public class CatMainActivity extends AppCompatActivity {
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 101;
     private Mic mic;
     private StatsDatabase myDb;
-    private ProgressBarHandler progressBarHandler;
+
+    private ProgressBar happyBar;
+    private ProgressBar stepsBar;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -46,6 +48,13 @@ public class CatMainActivity extends AppCompatActivity {
                 break;
         }
         if (!permissionToRecordAccepted ) finish();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        myDb.setHappy(happyBar.getProgress());
+        myDb.setSteps(stepsBar.getProgress());
     }
 
     @Override
@@ -62,9 +71,9 @@ public class CatMainActivity extends AppCompatActivity {
         View questionBubbleView = findViewById(R.id.questionBubble);
 
         // ----- PROGRESS BAR INITIALISATION AND SETTING -----
-        ProgressBar happyBar = (ProgressBar) findViewById(R.id.happyBar) ;
-        ProgressBar stepsBar = (ProgressBar) findViewById(R.id.walkBar) ;
-        progressBarHandler = new ProgressBarHandler(happyBar, stepsBar);
+        happyBar = (ProgressBar) findViewById(R.id.happyBar) ;
+        stepsBar = (ProgressBar) findViewById(R.id.walkBar) ;
+        ProgressBarHandler progressBarHandler = new ProgressBarHandler(happyBar, stepsBar);
 
         int happy = myDb.getHappy();
         int steps = myDb.getSteps();
@@ -118,4 +127,6 @@ public class CatMainActivity extends AppCompatActivity {
         Intent stepLaunch = new Intent(this, StepActivity.class);
         startActivity(stepLaunch);
     }
+
+
 }
