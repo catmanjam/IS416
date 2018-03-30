@@ -6,14 +6,17 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -28,14 +31,18 @@ import java.lang.reflect.Field;
 public class RewardsWindowDialog extends DialogFragment {
 
     private String polyId;
+    private double OBTAIN_RANGE = 50.0;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        RewardsDatabase myDb = RewardsDatabase.getInstance(this.getContext());
+        final RewardsDatabase myDb = RewardsDatabase.getInstance(this.getContext());
         SQLiteDatabase db = myDb.getWritableDatabase();
         Bundle args = getArguments();
-        String polyId = args.getString("PolyId");
+        final String polyId = args.getString("PolyId");
+        String latlng = args.getString("LatLng");
+
+
 
         Cursor c = db.rawQuery("SELECT * FROM "+RewardsDatabase.TABLE_REWARDS,null);
         if (c == null){
@@ -50,9 +57,34 @@ public class RewardsWindowDialog extends DialogFragment {
         View dialogView = inflater.inflate(R.layout.rewardinfo_dialogbox, null);
 
         TextView dialog_title = dialogView.findViewById(R.id.titleName);
-        dialog_title.setText(myDb.getLocationNameByPolyId(polyId));
+//        dialog_title.setText(myDb.getLocationNameByPolyId(polyId));
+        dialog_title.setText(polyId);
 
-        Rewards reward = myDb.getRewardByPolyId(polyId);
+        final Rewards reward = myDb.getRewardByPolyId(polyId);
+
+        if (latlng!=null){
+            if (Double.parseDouble(latlng) < OBTAIN_RANGE){
+                final Button claimButt = dialogView.findViewById(R.id.claimButton);
+                claimButt.setVisibility(View.VISIBLE);
+
+                if (myDb.checkClaimedByName(reward.getName(),polyId)){
+                    claimButt.setClickable(false);
+                    claimButt.setBackgroundColor(Color.DKGRAY);
+                    claimButt.setText("CLAIMED!");
+                }else {
+                    claimButt.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            myDb.claimRewardByName(reward.getName(),polyId);
+                            claimButt.setClickable(false);
+                            claimButt.setBackgroundColor(Color.DKGRAY);
+                            claimButt.setText("CLAIMED!");
+                            MapsActivity.healthToAdd += reward.getRewardInt();
+                        }
+                    });
+                }
+            }
+        }
 
         TextView dialog_name = dialogView.findViewById(R.id.dialog_id);
         dialog_name.setText(reward.getName());
@@ -84,12 +116,12 @@ public class RewardsWindowDialog extends DialogFragment {
 
         builder.setView(dialogView)
                 // Add action buttons
-                .setPositiveButton("Claim", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                })
+//                .setPositiveButton("Claim", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                    }
+//                })
 
                 .setNegativeButton("Return", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {

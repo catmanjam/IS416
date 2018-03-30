@@ -26,7 +26,7 @@ import java.util.Scanner;
 public class RewardsDatabase extends SQLiteOpenHelper {
 
     private static RewardsDatabase dbInstance;
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
     private static final String DATABASE_NAME = "reminder";
 
     public static final String TABLE_REWARDS = "rewards";
@@ -36,6 +36,7 @@ public class RewardsDatabase extends SQLiteOpenHelper {
     public static final String KEY_REWARDTYPE = "reward_type";
     public static final String KEY_POLY = "polyID";
     public static final String KEY_REWARDNAME = "reward_name";
+    public static final String KEY_CLAIMSTATUS = "reward_claim_status";
 
     private static Resources res;
 
@@ -61,7 +62,8 @@ public class RewardsDatabase extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + KEY_POLY + " TEXT,"
                 + KEY_NAME + " TEXT,"
-                + KEY_REWARDNAME + " TEXT" + ")";
+                + KEY_REWARDNAME + " TEXT,"
+                + KEY_CLAIMSTATUS + " INTEGER"+ ")";
 //                + KEY_REWARDAMT + " TEXT,"
 //                + KEY_REWARDTYPE + " TEXT" + ")";
         db.execSQL(CREATE_APPOINTMENTS_TABLE);
@@ -88,6 +90,7 @@ public class RewardsDatabase extends SQLiteOpenHelper {
             values.put(KEY_POLY,row.get("PolyId").getAsString());
             values.put(KEY_NAME,row.get("Name").getAsString());
             values.put(KEY_REWARDNAME,randomRewards());
+            values.put(KEY_CLAIMSTATUS,0);
             db.insert(TABLE_REWARDS,null,values);
         }
     }
@@ -107,7 +110,7 @@ public class RewardsDatabase extends SQLiteOpenHelper {
     public String getLocationNameByPolyId(String name){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_REWARDS,
-                new String[] {KEY_ID,KEY_POLY,KEY_NAME,KEY_REWARDNAME},
+                new String[] {KEY_ID,KEY_POLY,KEY_NAME,KEY_REWARDNAME,KEY_CLAIMSTATUS},
                 KEY_POLY + "=?",
                 new String[] { name },
                 null,null,null,null);
@@ -125,7 +128,7 @@ public class RewardsDatabase extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_REWARDS,
-                new String[] {KEY_ID,KEY_POLY,KEY_NAME,KEY_REWARDNAME},
+                new String[] {KEY_ID,KEY_POLY,KEY_NAME,KEY_REWARDNAME,KEY_CLAIMSTATUS},
                 KEY_POLY + "=?",
                 new String[] { name },
                 null,null,null,null);
@@ -159,6 +162,34 @@ public class RewardsDatabase extends SQLiteOpenHelper {
             };
         }
         return null;
+    }
+
+    public void claimRewardByName(String name,String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_CLAIMSTATUS, 1); // Date Time
+        db.update(TABLE_REWARDS, values, KEY_REWARDNAME+" = ? AND "+KEY_POLY+" = ? ", new String[] { name,id } );
+    }
+
+    public boolean checkClaimedByName(String name,String id){
+        String rewardName = null;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_REWARDS,
+                new String[] {KEY_ID,KEY_POLY,KEY_NAME,KEY_REWARDNAME,KEY_CLAIMSTATUS},
+                KEY_REWARDNAME + " = ? AND "+KEY_POLY + " = ? ",
+                new String[] { name, id },
+                null,null,null,null);
+
+        if (cursor != null){
+            cursor.moveToFirst();
+            if (cursor.getInt(4)==1){
+                return true;
+            }else {
+                return false;
+            }
+        }
+        return false;
     }
 
 //    public void addAppointment(Appointment appt) {

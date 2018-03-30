@@ -24,4 +24,6 @@ public class Rewards {
         return (rewardAmt + " " + rewardType);
     }
 
+    public int getRewardInt() { return Integer.parseInt(rewardAmt); }
+
 }

@@ -111,7 +111,8 @@ public class CatMainActivity extends AppCompatActivity {
 
     public void goWalk(View view) {
         Intent walkLaunch = new Intent(this, MapsActivity.class);
-        startActivity(walkLaunch);
+//        startActivity(walkLaunch);
+        startActivityForResult(walkLaunch,1234);
     }
 
     public void goPlay(View view) {
@@ -128,5 +129,12 @@ public class CatMainActivity extends AppCompatActivity {
         startActivity(stepLaunch);
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1234 && resultCode == RESULT_OK){
+            int healthToAdd = data.getIntExtra("healthToAdd",0);
+            stepsBar.incrementProgressBy(healthToAdd);
+        }
+    }
 }

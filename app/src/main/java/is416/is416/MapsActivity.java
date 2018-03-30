@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -33,6 +34,8 @@ import android.view.animation.Interpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -47,8 +50,10 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.maps.android.PolyUtil;
+import com.google.maps.android.SphericalUtil;
 import com.google.maps.android.data.Geometry;
 import com.google.maps.android.data.geojson.GeoJsonFeature;
 import com.google.maps.android.data.geojson.GeoJsonLayer;
@@ -92,6 +97,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected LocationManager mLocationManager;
     private final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     float stepVal;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private LatLng myCurrentLocation;
+    public static int healthToAdd;
 
 
     TimeZone SG = TimeZone.getTimeZone("Singapore");
@@ -105,6 +113,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         stepView = (TextView) findViewById(R.id.steps);
+        healthToAdd = 0;
 
         calendarView = (TextView) findViewById(R.id.date);
 //        calendarView.setText(calculateCalendar());
@@ -132,6 +141,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     LOCATION_PERMISSION_REQUEST_CODE);
+
         }else{
             initMap();
         }
@@ -154,6 +164,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                     mLocationPermissionGranted = true;
                     initMap();
+
                 }
             }
         }
@@ -203,9 +214,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
                 LOCATION_REFRESH_DISTANCE, mLocationListener);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
 
         try {
-            GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.attractions,getApplicationContext());
+            GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.attractions2,getApplicationContext());
             LatLngBounds.Builder builder;
 
             for (GeoJsonFeature feature : layer.getFeatures()) {
@@ -261,6 +274,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
 
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            Toast.makeText(getApplicationContext(),Double.toString(location.getLongitude()),Toast.LENGTH_LONG).show();
+                            myCurrentLocation = new LatLng(location.getLatitude(),location.getLongitude());
+                        }
+                    }
+                });
+
 //        mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
 //            @Override
 //            public void onPolygonClick(final Polygon polygon) {
@@ -283,6 +309,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 dlFrag.show(fm,"");
                 Bundle args = new Bundle();
                 args.putString("PolyId",marker.getTitle());
+                double difference = SphericalUtil.computeDistanceBetween(myCurrentLocation,marker.getPosition());
+                args.putString("LatLng",Double.toString(difference));
 //                Toast.makeText(getApplicationContext(),marker.getSnippet(),Toast.LENGTH_LONG).show();
                 dlFrag.setArguments(args);
                 marker.hideInfoWindow();
@@ -319,6 +347,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (stepDb!=null && cal != null && globalStepCount!=null){
             stepDb.updateStepRecord(cal,Math.round(globalStepCount+stepVal));
         }
+//        Intent iti = new Intent();
+//        iti.putExtra()
+    }
+
+    @Override
+    public void onBackPressed() {
+        int resultCode = 1234;
+        Intent intent = getIntent();
+        intent.putExtra("healthToAdd",healthToAdd);
+        setResult(RESULT_OK, intent);
+//        Toast.makeText(getApplicationContext(),Integer.toString(healthToAdd),Toast.LENGTH_LONG).show();
+        super.onBackPressed();
+
     }
 
     @Override
@@ -369,6 +410,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         @Override
         public void onSensorChanged(SensorEvent sensorEvent) {
+
 
         }
 

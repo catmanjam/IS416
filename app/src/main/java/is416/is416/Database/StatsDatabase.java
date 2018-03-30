@@ -10,6 +10,7 @@ import android.util.Log;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import is416.is416.Rewards;
 import is416.is416.RewardsDatabase;
 
 /**
@@ -78,7 +79,8 @@ public class StatsDatabase extends SQLiteOpenHelper {
                 + RewardsDatabase.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + RewardsDatabase.KEY_POLY + " TEXT,"
                 + RewardsDatabase.KEY_NAME + " TEXT,"
-                + RewardsDatabase.KEY_REWARDNAME + " TEXT" + ")";
+                + RewardsDatabase.KEY_REWARDNAME + " TEXT,"
+                + RewardsDatabase.KEY_CLAIMSTATUS + " INTEGER"+ ")";
 //                + KEY_REWARDAMT + " TEXT,"
 //                + KEY_REWARDTYPE + " TEXT" + ")";
         db.execSQL(CREATE_REWARDS_TABLE);

@@ -6,33 +6,37 @@
       "Name": "Singapore Art Museum"
     },
     {
-      "PolyId": "Reward3",
+      "PolyId": "Reward4",
       "Name": "Singapore History Gallery"
     },
     {
-      "PolyId": "Reward0",
+      "PolyId": "Reward2",
       "Name": "Fort Canning Memorial"
     },
     {
-      "PolyId": "Reward2",
+      "PolyId": "Reward0",
       "Name": "Peranakan Museum"
+    },
+    {
+      "PolyId": "Reward3",
+      "Name": "SMU SIS"
     }
   ],
   "rewards":
   [
     {
       "Name":"candy",
-      "RewardAmt": "10",
+      "RewardAmt": "50",
       "RewardType": "HP"
     },
     {
       "Name":"mouse",
-      "RewardAmt": "20",
+      "RewardAmt": "70",
       "RewardType": "HP"
     },
     {
       "Name":"icecream",
-      "RewardAmt": "15",
+      "RewardAmt": "65",
       "RewardType": "HP"
     }
   ]
