@@ -88,6 +88,7 @@ public class StepActivity extends AppCompatActivity {
         BarDataSet barDataSet = new BarDataSet(barEntries, "Steps");
         barDataSet.setValueTextColor(darkblueInt);
         barDataSet.setValueTextSize(13f);
+
        // barDataSet.setValueTextColor(16777215);
         BarData data = new BarData(barDataSet);
         data.setBarWidth(0.7f);

@@ -114,6 +114,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         stepView = (TextView) findViewById(R.id.steps);
         healthToAdd = 0;
+        stepVal = 0;
 
         calendarView = (TextView) findViewById(R.id.date);
 //        calendarView.setText(calculateCalendar());
@@ -281,24 +282,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             // Logic to handle location object
-                            Toast.makeText(getApplicationContext(),Double.toString(location.getLongitude()),Toast.LENGTH_LONG).show();
+//                            Toast.makeText(getApplicationContext(),Double.toString(location.getLongitude()),Toast.LENGTH_LONG).show();
                             myCurrentLocation = new LatLng(location.getLatitude(),location.getLongitude());
                         }
                     }
                 });
 
-//        mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-//            @Override
-//            public void onPolygonClick(final Polygon polygon) {
-//                Toast.makeText(getApplicationContext(),polygon.getId(),Toast.LENGTH_LONG).show();
-//                DialogFragment dlFrag = new RewardsWindowDialog();
-//                FragmentManager fm = getFragmentManager();
-//                dlFrag.show(fm,"");
-//            }
-//
-//        });
-
-//        mMap.setInfoWindowAdapter();
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 
             @Override
@@ -319,26 +308,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
 
-
-
-//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//            @Override
-//            public void onMapClick(LatLng latLng) {
-//                if (PolyUtil.containsLocation(latLng,polygon.getPoints(),true)){
-//                    mMap.addMarker(new MarkerOptions().position(latLng));
-//                    Toast.makeText(getApplicationContext(),"I clicked inside",Toast.LENGTH_LONG);
-//                }
-//            }
-//        });
-
-
-//        mMap.animateCamera(CameraUpdateFa/ctory.zoomTo(2.5f));
-
-//        GroundOverlayOptions presentBox = new GroundOverlayOptions()
-//            .image(fromResource(R.drawable.presentvector))
-//            .position(singapore, 150f, 150f);
-//        mMap.addGroundOverlay(presentBox);
-
     }
 
     @Override
@@ -353,6 +322,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onBackPressed() {
+        if (stepDb!=null && cal != null && globalStepCount!=null){
+            stepDb.updateStepRecord(cal,Math.round(globalStepCount+stepVal));
+        }
         int resultCode = 1234;
         Intent intent = getIntent();
         intent.putExtra("healthToAdd",healthToAdd);
@@ -394,7 +366,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mStepOffset = sensorEvent.values[0];
             }
 //            stepView.setText(Float.toString(sensorEvent.values[0]-mStepOffset));
-            float stepVal = sensorEvent.values[0]-mStepOffset;
+            stepVal = sensorEvent.values[0]-mStepOffset;
             stepView.setText("Steps take today: "+Math.round(globalStepCount+stepVal));
         }
 
@@ -484,7 +456,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public void onLocationChanged(final Location location) {
             //your code here
-            Toast.makeText(getApplicationContext(),"Result: "+Double.toString(location.getLatitude()),Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(),"Result: "+Double.toString(location.getLatitude()),Toast.LENGTH_LONG).show();
         }
 
         @Override

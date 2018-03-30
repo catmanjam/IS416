@@ -167,9 +167,12 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void goHome (View view) {
+        int resultCode = 4321;
         Intent homeLaunch = new Intent(this, CatMainActivity.class);
         homeLaunch.putExtra("happyPoints", happyPoints);
-        startActivity(homeLaunch);
+        setResult(RESULT_OK, homeLaunch);
+//        startActivity(homeLaunch);
+        finish();
     }
 
     public void startGame(View view){

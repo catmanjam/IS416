@@ -62,11 +62,6 @@ public class CatMainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        int happyPoints = getIntent().getIntExtra("happyPoints",0);
-        getIntent().removeExtra("happyPoints");
-        if (happyPoints > 0){
-            happyBar.incrementProgressBy(happyPoints);
-        }
     }
 
     @Override
@@ -135,7 +130,8 @@ public class CatMainActivity extends AppCompatActivity {
 
     public void goPlay(View view) {
         Intent gameLaunch = new Intent(this, GameActivity.class);
-        startActivity(gameLaunch);
+//        startActivity(gameLaunch);
+        startActivityForResult(gameLaunch,4321);
     }
 
     public void micClick(View view) {
@@ -153,6 +149,11 @@ public class CatMainActivity extends AppCompatActivity {
         if (requestCode == 1234 && resultCode == RESULT_OK) {
             int healthToAdd = data.getIntExtra("healthToAdd", 0);
             stepsBar.incrementProgressBy(healthToAdd);
+        }
+
+        if (requestCode == 4321 && resultCode == RESULT_OK){
+            int happyToAdd = data.getIntExtra("happyPoints",0);
+            happyBar.incrementProgressBy(happyToAdd);
         }
     }
 
