@@ -15,6 +15,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -45,6 +47,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.tasks.Task;
 import com.google.maps.android.PolyUtil;
 import com.google.maps.android.data.Geometry;
 import com.google.maps.android.data.geojson.GeoJsonFeature;
@@ -72,6 +75,8 @@ import static com.google.android.gms.maps.model.BitmapDescriptorFactory.fromReso
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnMyLocationButtonClickListener, OnMyLocationClickListener {
 
+    private static final long LOCATION_REFRESH_TIME = 100;
+    private static final float LOCATION_REFRESH_DISTANCE = 1;
     private GoogleMap mMap;
     private StepDatabase stepDb;
     private TextView stepView;
@@ -83,6 +88,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private MapMarkerBounce bounce;
     private Float globalStepCount;
     private Calendar cal;
+    private boolean mLocationPermissionGranted;
+    protected LocationManager mLocationManager;
+    private final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    float stepVal;
+
+
     TimeZone SG = TimeZone.getTimeZone("Singapore");
     Random rand = new Random();
     Handler handler = new Handler();
@@ -93,9 +104,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
         stepView = (TextView) findViewById(R.id.steps);
 
         calendarView = (TextView) findViewById(R.id.date);
@@ -111,47 +119,51 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         globalStepCount = (float) stepDb.getStepsToday(cal);
 
         stepView.setText("Steps taken today: " + Integer.toString(stepDb.getStepsToday(cal)));
-//        runnableCode.run();
 
-//        View mDecorView = getWindow().getDecorView();
-//        // Hide both the navigation bar and the status bar.
-//        // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
-//        // a general rule, you should design your app to hide the status bar whenever you
-//        // hide the navigation bar.
-//        mDecorView.setSystemUiVisibility(
-//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-//                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-//                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        }else{
+            initMap();
+        }
+
     }
 
-//    private void getDeviceLocation() {
-//    /*
-//     * Before getting the device location, you must check location
-//     * permission, as described earlier in the tutorial. Then:
-//     * Get the best and most recent location of the device, which may be
-//     * null in rare cases when a location is not available.
-//     */
-//        if (mLocationPermissionGranted) {
-//            mLastKnownLocation = LocationServices.FusedLocationApi
-//                    .getLastLocation(mGoogleApiClient);
-//        }
-//
-//        // Set the map's camera position to the current location of the device.
-//        if (mCameraPosition != null) {
-//            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
-//        } else if (mLastKnownLocation != null) {
-//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-//                    new LatLng(mLastKnownLocation.getLatitude(),
-//                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-//        } else {
-//            Log.d(TAG, "Current location is null. Using defaults.");
-//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-//            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-//        }
-//    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        mLocationPermissionGranted = false;
+
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE: {
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < grantResults.length; i++) {
+                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                            mLocationPermissionGranted = false;
+                            return;
+                        }
+                    }
+                    mLocationPermissionGranted = true;
+                    initMap();
+                }
+            }
+        }
+    }
+
+    private void initMap() {
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
 
 
     /**
@@ -172,10 +184,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
         LatLng singapore = new LatLng(1.296568, 103.852119);
-//        MarkerOptions smuMarker = new MarkerOptions()
-//                .position(singapore)
-//                .title("Marker in SMU")
-//                .icon(BitmapDescriptorFactory.fromBitmap(Bitmap.createScaledBitmap(bmp, 100, 100, false)));
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -185,20 +193,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    1);
-
             return;
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(singapore,16.0f));
         mMap.setMyLocationEnabled(true);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(singapore,16.0f));
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-//        mMap.addMarker(smuMarker);
-
-//        List<Polygon> list = new ArrayList<>();
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
+                LOCATION_REFRESH_DISTANCE, mLocationListener);
 
         try {
             GeoJsonLayer layer = new GeoJsonLayer(mMap, R.raw.attractions,getApplicationContext());
@@ -228,7 +232,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         LatLngBounds polyBounds = builder.build();
                         Marker m = mMap.addMarker(new MarkerOptions()
                                 .position(polyBounds.getCenter())
-                                .title("Polygon"+(polygonMasterList.size()-1))
+                                .title("Reward"+(polygonMasterList.size()-1))
                                 .icon(BitmapDescriptorFactory.fromBitmap(Bitmap.createScaledBitmap(bmp, 100, 100, false)))
                         );
 
@@ -251,18 +255,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
+        } finally {
+            for (Marker m : markerList){
+                setMarkerBounce(m);
+            }
         }
 
-        mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
-            @Override
-            public void onPolygonClick(final Polygon polygon) {
-                Toast.makeText(getApplicationContext(),polygon.getId(),Toast.LENGTH_LONG).show();
-                DialogFragment dlFrag = new RewardsWindowDialog();
-                FragmentManager fm = getFragmentManager();
-                dlFrag.show(fm,"");
-            }
-
-        });
+//        mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+//            @Override
+//            public void onPolygonClick(final Polygon polygon) {
+//                Toast.makeText(getApplicationContext(),polygon.getId(),Toast.LENGTH_LONG).show();
+//                DialogFragment dlFrag = new RewardsWindowDialog();
+//                FragmentManager fm = getFragmentManager();
+//                dlFrag.show(fm,"");
+//            }
+//
+//        });
 
 //        mMap.setInfoWindowAdapter();
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -275,11 +283,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 dlFrag.show(fm,"");
                 Bundle args = new Bundle();
                 args.putString("PolyId",marker.getTitle());
+//                Toast.makeText(getApplicationContext(),marker.getSnippet(),Toast.LENGTH_LONG).show();
                 dlFrag.setArguments(args);
                 marker.hideInfoWindow();
                 return false;
             }
         });
+
+
 
 
 //        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -306,7 +317,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onPause() {
         super.onPause();
         if (stepDb!=null && cal != null && globalStepCount!=null){
-            stepDb.updateStepRecord(cal,Math.round(globalStepCount));
+            stepDb.updateStepRecord(cal,Math.round(globalStepCount+stepVal));
         }
     }
 
@@ -316,17 +327,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onResume();
         mSensorManager.registerListener(mSensorEventListener,mSensor,mSensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(mStepTakenSensorEventListener,mStepSensor,mSensorManager.SENSOR_DELAY_FASTEST);
+        globalStepCount = (float) stepDb.getStepsToday(cal);
+
+
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus){
-            for (Marker m : markerList){
-                setMarkerBounce(m);
-            }
-        }
-    }
 
     @Override
     public boolean onMyLocationButtonClick() {
@@ -348,8 +353,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mStepOffset = sensorEvent.values[0];
             }
 //            stepView.setText(Float.toString(sensorEvent.values[0]-mStepOffset));
-            globalStepCount += sensorEvent.values[0]-mStepOffset;
-            stepView.setText("Steps take today: "+Math.round(globalStepCount));
+            float stepVal = sensorEvent.values[0]-mStepOffset;
+            stepView.setText("Steps take today: "+Math.round(globalStepCount+stepVal));
         }
 
         @Override
@@ -432,4 +437,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }, 4000);
 
     }
+
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            //your code here
+            Toast.makeText(getApplicationContext(),"Result: "+Double.toString(location.getLatitude()),Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
+    };
+
 }

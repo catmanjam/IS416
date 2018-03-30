@@ -57,7 +57,7 @@ public class RewardsWindowDialog extends DialogFragment {
         TextView dialog_name = dialogView.findViewById(R.id.dialog_id);
         dialog_name.setText(reward.getName());
         final TextView dialog_id = dialogView.findViewById(R.id.dialog_rewardInfo);
-        dialog_id.setText(reward.getRewardAmt());
+        dialog_id.setText("+ "+reward.getRewardAmt());
 
         ImageView dialog_image = dialogView.findViewById(R.id.reward_image);
         try {

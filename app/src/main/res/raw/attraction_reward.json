@@ -2,19 +2,19 @@
   "data":
   [
     {
-      "PolyId": "Polygon1",
+      "PolyId": "Reward1",
       "Name": "Singapore Art Museum"
     },
     {
-      "PolyId": "Polygon3",
+      "PolyId": "Reward3",
       "Name": "Singapore History Gallery"
     },
     {
-      "PolyId": "Polygon0",
+      "PolyId": "Reward0",
       "Name": "Fort Canning Memorial"
     },
     {
-      "PolyId": "Polygon2",
+      "PolyId": "Reward2",
       "Name": "Peranakan Museum"
     }
   ],
