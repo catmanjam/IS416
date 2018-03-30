@@ -27,7 +27,7 @@
         android:theme="@style/Base.Theme.AppCompat.Light">
         <activity android:name=".WalkActivity" android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".Schedule.ScheduleActivity" android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name=".StepActivity" android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+        <activity android:name=".StepActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
 
         <activity android:name=".GameActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>

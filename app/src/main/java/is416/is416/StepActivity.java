@@ -83,9 +83,10 @@ public class StepActivity extends AppCompatActivity {
         }
         int whiteInt = ContextCompat.getColor(this, R.color.offWhite);
         int yellowInt = ContextCompat.getColor(this, R.color.yellow);
+        int darkblueInt = ContextCompat.getColor(this, R.color.colorPrimaryDark);
 
         BarDataSet barDataSet = new BarDataSet(barEntries, "Steps");
-        barDataSet.setValueTextColor(whiteInt);
+        barDataSet.setValueTextColor(darkblueInt);
         barDataSet.setValueTextSize(13f);
        // barDataSet.setValueTextColor(16777215);
         BarData data = new BarData(barDataSet);
@@ -95,25 +96,26 @@ public class StepActivity extends AppCompatActivity {
         barChart.getAxisRight().setEnabled(false); // remove right axis
         barChart.getAxisLeft().setAxisMinimum(0);
         barChart.getAxisLeft().setTextSize(13f);
-        barChart.getAxisLeft().setTextColor(yellowInt);
+        barChart.getAxisLeft().setTextColor(darkblueInt);
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setTextSize(13f);
         xAxis.setGranularity(1f);
         xAxis.setValueFormatter(new MyXAxisValueFormatter(dates));
-        xAxis.setTextColor(yellowInt);
-        barChart.getLegend().setTextColor(whiteInt);
+        xAxis.setTextColor(darkblueInt);
+        barChart.getLegend().setTextColor(darkblueInt);
 
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         barChart.getDescription().setEnabled(false);
     }
 
+    // LOAD CAT HERE
     private void loadImageView(){
-        imgViewLeft = (ImageView) findViewById(R.id.putCatLeftGif);
+        imgViewLeft = (ImageView) findViewById(R.id.catwalkingview);
         Glide.with(this)
-                .load(R.drawable.cateating)
-                .dontAnimate()
+                .load(R.drawable.new_catwalk)
                 .into(new GlideDrawableImageViewTarget(imgViewLeft));
+
     }
 
     static class MyXAxisValueFormatter implements IAxisValueFormatter {
