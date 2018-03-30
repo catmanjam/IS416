@@ -45,7 +45,8 @@ tools:context="is416.is416.CatMainActivity">
                     android:orientation="horizontal"
                     android:paddingLeft="5dp">
 
-                    <ImageView
+                    <Button
+                        android:onClick="addHappy"
                         android:id="@+id/happiness"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
@@ -74,8 +75,9 @@ tools:context="is416.is416.CatMainActivity">
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent">
 
-                    <ImageView
+                    <Button
                         android:id="@+id/walk"
+                        android:onClick="addSteps"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:layout_gravity="center"

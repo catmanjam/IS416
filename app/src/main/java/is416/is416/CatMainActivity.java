@@ -145,4 +145,12 @@ public class CatMainActivity extends AppCompatActivity {
         Intent stepLaunch = new Intent(this, StepActivity.class);
         startActivity(stepLaunch);
     }
+
+    public void addSteps(View view) {
+        stepsBar.incrementProgressBy(10);
+    }
+
+    public void addHappy(View view) {
+        happyBar.incrementProgressBy(10);
+    }
 }
