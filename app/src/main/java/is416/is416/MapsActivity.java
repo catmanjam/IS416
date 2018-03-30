@@ -4,18 +4,31 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -41,16 +54,39 @@ import com.google.maps.android.data.geojson.GeoJsonPolygon;
 import com.google.maps.android.data.geojson.GeoJsonPolygonStyle;
 
 import org.json.JSONException;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import is416.is416.Database.StepDatabase;
 
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.fromResource;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnMyLocationButtonClickListener, OnMyLocationClickListener {
 
     private GoogleMap mMap;
+    private StepDatabase stepDb;
+    private TextView stepView;
+    private TextView calendarView;
+    private SensorManager mSensorManager;
+    private Sensor mSensor;
+    private Sensor mStepSensor;
+    private List<Marker> markerList = new ArrayList<>();
+    private MapMarkerBounce bounce;
+    private Float globalStepCount;
+    private Calendar cal;
+    TimeZone SG = TimeZone.getTimeZone("Singapore");
+    Random rand = new Random();
+    Handler handler = new Handler();
+    // Define the code block to be executed
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +96,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        stepView = (TextView) findViewById(R.id.steps);
 
+        calendarView = (TextView) findViewById(R.id.date);
+//        calendarView.setText(calculateCalendar());
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        mStepSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+        bounce = new MapMarkerBounce();
+        stepDb = StepDatabase.getInstance(this);
+        cal = Calendar.getInstance();
+        cal.setTimeZone(SG);
+
+        globalStepCount = (float) stepDb.getStepsToday(cal);
+
+        stepView.setText("Steps taken today: " + Integer.toString(stepDb.getStepsToday(cal)));
+//        runnableCode.run();
 
 //        View mDecorView = getWindow().getDecorView();
 //        // Hide both the navigation bar and the status bar.
@@ -121,10 +172,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
         LatLng singapore = new LatLng(1.296568, 103.852119);
-        MarkerOptions smuMarker = new MarkerOptions()
-                .position(singapore)
-                .title("Marker in SMU")
-                .icon(BitmapDescriptorFactory.fromBitmap(Bitmap.createScaledBitmap(bmp, 100, 100, false)));
+//        MarkerOptions smuMarker = new MarkerOptions()
+//                .position(singapore)
+//                .title("Marker in SMU")
+//                .icon(BitmapDescriptorFactory.fromBitmap(Bitmap.createScaledBitmap(bmp, 100, 100, false)));
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -134,14 +185,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
+
             return;
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(singapore,16.0f));
         mMap.setMyLocationEnabled(true);
-//        mMap.setOnMyLocationButtonClickListener(this);
-//        mMap.setOnMyLocationClickListener(this);
-//        mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        mMap.addMarker(smuMarker);
+        mMap.setOnMyLocationButtonClickListener(this);
+        mMap.setOnMyLocationClickListener(this);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+//        mMap.addMarker(smuMarker);
 
 //        List<Polygon> list = new ArrayList<>();
 
@@ -171,10 +226,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
 
                         LatLngBounds polyBounds = builder.build();
-                        mMap.addMarker(new MarkerOptions()
+                        Marker m = mMap.addMarker(new MarkerOptions()
                                 .position(polyBounds.getCenter())
                                 .title("Polygon"+(polygonMasterList.size()-1))
+                                .icon(BitmapDescriptorFactory.fromBitmap(Bitmap.createScaledBitmap(bmp, 100, 100, false)))
                         );
+
+                        markerList.add(m);
+
 //                        System.out.print("Poly coords"+feature.getId());
                         polygon.setFillColor(Color.GREEN);
 
@@ -214,6 +273,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 DialogFragment dlFrag = new RewardsWindowDialog();
                 FragmentManager fm = getFragmentManager();
                 dlFrag.show(fm,"");
+                Bundle args = new Bundle();
+                args.putString("PolyId",marker.getTitle());
+                dlFrag.setArguments(args);
                 marker.hideInfoWindow();
                 return false;
             }
@@ -241,12 +303,133 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (stepDb!=null && cal != null && globalStepCount!=null){
+            stepDb.updateStepRecord(cal,Math.round(globalStepCount));
+        }
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        mSensorManager.registerListener(mSensorEventListener,mSensor,mSensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(mStepTakenSensorEventListener,mStepSensor,mSensorManager.SENSOR_DELAY_FASTEST);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus){
+            for (Marker m : markerList){
+                setMarkerBounce(m);
+            }
+        }
+    }
+
+    @Override
     public boolean onMyLocationButtonClick() {
         return false;
     }
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
+
+    }
+
+    private SensorEventListener mSensorEventListener = new SensorEventListener() {
+
+        private float mStepOffset;
+
+        @Override
+        public void onSensorChanged(SensorEvent sensorEvent) {
+            if (mStepOffset == 0){
+                mStepOffset = sensorEvent.values[0];
+            }
+//            stepView.setText(Float.toString(sensorEvent.values[0]-mStepOffset));
+            globalStepCount += sensorEvent.values[0]-mStepOffset;
+            stepView.setText("Steps take today: "+Math.round(globalStepCount));
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+
+        }
+    };
+
+    private SensorEventListener mStepTakenSensorEventListener = new SensorEventListener() {
+
+        private float mStepOffset;
+
+        @Override
+        public void onSensorChanged(SensorEvent sensorEvent) {
+
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+
+        }
+    };
+
+    private String calculateCalendar(){
+        stepDb = new StepDatabase(this);
+        Calendar today = Calendar.getInstance();
+        Integer day = today.get(today.DAY_OF_MONTH);
+        Integer month =  today.get(today.MONTH);
+        Integer year = today.get(today.YEAR);
+        Log.d("SEE THIS", ""+day+"-"+month+"-"+year);
+        today.set(year, month, 27, 0,0,0);
+        Log.d("SEE THAT", ""+today.get(today.DAY_OF_MONTH)+"-"+today.get(today.MONTH)+"-"+today.get(Calendar.YEAR));
+        Cursor c = stepDb.getAllSteps();
+
+        // Cursor c = stepDb.getStepsToday(today);
+        String str = "";
+        c.moveToNext();
+        while(c.getCount()-c.getPosition() > 0){
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(c.getLong(1));
+            Log.d("SEE retrieved time", ""+cal.getTimeInMillis() );
+            cal.set(Calendar.MILLISECOND,0);
+
+            str += c.getInt(0)+ ",";
+            str += cal.get(cal.DAY_OF_MONTH) + "-" + cal.get(cal.MONTH) + "-"+ cal.get(cal.YEAR)+ ",";
+            str += c.getInt(2) + "\n";
+            c.moveToNext();
+        }
+
+        return str;
+    }
+
+    private void setMarkerBounce(final Marker marker) {
+        final Handler handler = new Handler();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // this code will be executed after 2 seconds
+//                long test = (rand.nextInt(2) + 1) * 1000;
+                long test = 2000;
+                final long startTime = SystemClock.uptimeMillis();
+                final long duration = test;
+                final Interpolator interpolator = new BounceInterpolator();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        long elapsed = SystemClock.uptimeMillis() - startTime;
+                        float t = Math.max(1 - interpolator.getInterpolation((float) elapsed/duration), 0);
+                        marker.setAnchor(0.5f, 1.0f +  t);
+
+                        if (t > 0.0) {
+                            handler.postDelayed(this, 28);
+                        } else {
+                            setMarkerBounce(marker);
+                        }
+                    }
+                });
+            }
+        }, 4000);
 
     }
 }

@@ -6,12 +6,17 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
 import java.io.InputStream;
+import java.util.Objects;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -21,7 +26,7 @@ import java.util.Scanner;
 public class RewardsDatabase extends SQLiteOpenHelper {
 
     private static RewardsDatabase dbInstance;
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 8;
     private static final String DATABASE_NAME = "reminder";
 
     public static final String TABLE_REWARDS = "rewards";
@@ -29,6 +34,8 @@ public class RewardsDatabase extends SQLiteOpenHelper {
     public static final String KEY_NAME = "name";
     public static final String KEY_REWARDAMT = "reward_amt";
     public static final String KEY_REWARDTYPE = "reward_type";
+    public static final String KEY_POLY = "polyID";
+    public static final String KEY_REWARDNAME = "reward_name";
 
     private static Resources res;
 
@@ -49,29 +56,16 @@ public class RewardsDatabase extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
+        System.out.println("SADOYW)OEWDNOWJOIWQJDOHEWQ#EDWD");
         String CREATE_APPOINTMENTS_TABLE = "CREATE TABLE " + TABLE_REWARDS + "( "
-                + KEY_ID + " TEXT PRIMARY KEY,"
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + KEY_POLY + " TEXT,"
                 + KEY_NAME + " TEXT,"
-                + KEY_REWARDAMT + " TEXT,"
-                + KEY_REWARDTYPE + " TEXT" + ")";
+                + KEY_REWARDNAME + " TEXT" + ")";
+//                + KEY_REWARDAMT + " TEXT,"
+//                + KEY_REWARDTYPE + " TEXT" + ")";
         db.execSQL(CREATE_APPOINTMENTS_TABLE);
-
-        Gson gson = new Gson();
-//        JsonReader reader = new JsonReader(new FileReader(filename));
-        InputStream is = res.openRawResource(R.raw.attraction_reward);
-        String jsonString = new Scanner(is).useDelimiter("\\A").next();
-        JsonObject jsonObject = gson.fromJson(jsonString,JsonObject.class);
-        JsonArray arr = (JsonArray) jsonObject.get("data");
-        if (arr.iterator().hasNext()){
-            JsonObject row = (JsonObject) arr.iterator().next();
-            ContentValues values = new ContentValues();
-            String test = row.get("PolyId").getAsString();
-//            values.put(KEY_ID,row.get("PolyId").getAsString());
-//            values.put(KEY_NAME,row.get("Name").getAsString());
-//            values.put(KEY_REWARDAMT,row.get("RewardAmt").getAsString());
-//            values.put(KEY_REWARDTYPE,row.get("RewardType").getAsString());
-
-        }
+        initializeDB(db);
     }
 
     @Override
@@ -79,6 +73,92 @@ public class RewardsDatabase extends SQLiteOpenHelper {
         // Drop older table if existed and Create tables again
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_REWARDS);
         onCreate(db);
+    }
+
+    public void initializeDB(SQLiteDatabase db){
+        Gson gson = new Gson();
+//        JsonReader reader = new JsonReader(new FileReader(filename));
+        InputStream is = res.openRawResource(R.raw.attraction_reward);
+        String jsonString = new Scanner(is).useDelimiter("\\A").next();
+        JsonObject jsonObject = gson.fromJson(jsonString,JsonObject.class);
+        JsonArray arr = (JsonArray) jsonObject.get("data");
+        for (int i = 0; i < arr.size();i++){
+            JsonObject row = (JsonObject) arr.get(i);
+            ContentValues values = new ContentValues();
+            values.put(KEY_POLY,row.get("PolyId").getAsString());
+            values.put(KEY_NAME,row.get("Name").getAsString());
+            values.put(KEY_REWARDNAME,randomRewards());
+            db.insert(TABLE_REWARDS,null,values);
+        }
+    }
+
+    private String randomRewards(){
+        Gson gson = new Gson();
+//        JsonReader reader = new JsonReader(new FileReader(filename));
+        InputStream is = res.openRawResource(R.raw.attraction_reward);
+        String jsonString = new Scanner(is).useDelimiter("\\A").next();
+        JsonObject jsonObject = gson.fromJson(jsonString,JsonObject.class);
+        JsonArray arr2 = (JsonArray) jsonObject.get("rewards");
+        Random rand = new Random();
+        JsonObject randomRewardRow = (JsonObject) arr2.get(rand.nextInt(arr2.size()));
+        return randomRewardRow.get("Name").getAsString();
+    }
+
+    public String getLocationNameByPolyId(String name){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_REWARDS,
+                new String[] {KEY_ID,KEY_POLY,KEY_NAME,KEY_REWARDNAME},
+                KEY_POLY + "=?",
+                new String[] { name },
+                null,null,null,null);
+
+        if (cursor != null){
+            cursor.moveToFirst();
+            return cursor.getString(2);
+        }
+
+        return null;
+    }
+
+    public Rewards getRewardByPolyId(String name){
+        String rewardName = null;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_REWARDS,
+                new String[] {KEY_ID,KEY_POLY,KEY_NAME,KEY_REWARDNAME},
+                KEY_POLY + "=?",
+                new String[] { name },
+                null,null,null,null);
+
+        if (cursor != null){
+            cursor.moveToFirst();
+            rewardName = cursor.getString(3);
+        }
+
+        if (rewardName!=null){
+            return getRewardDetailsByName(rewardName);
+        }
+
+        return null;
+    }
+
+    public Rewards getRewardDetailsByName(String name){
+        Gson gson = new Gson();
+        InputStream is = res.openRawResource(R.raw.attraction_reward);
+        String jsonString = new Scanner(is).useDelimiter("\\A").next();
+        JsonObject jsonObject = gson.fromJson(jsonString,JsonObject.class);
+        JsonArray arr2 = (JsonArray) jsonObject.get("rewards");
+        for (int i = 0;i<arr2.size();i++){
+            JsonObject row = (JsonObject) arr2.get(i);
+            if (Objects.equals(row.get("Name").getAsString(), name)){
+                return new Rewards(
+                        row.get("Name").getAsString(),
+                        row.get("RewardAmt").getAsString(),
+                        row.get("RewardType").getAsString()
+                );
+            };
+        }
+        return null;
     }
 
 //    public void addAppointment(Appointment appt) {

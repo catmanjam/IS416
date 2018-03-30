@@ -13,7 +13,13 @@
         android:textAlignment="center"
         android:gravity="center"
         android:textSize="28dp"
-        android:text="0 Steps! Get Moving!"/>
+        android:text="0 Steps! Get Moving!"
+        android:id="@+id/steps"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/date"/>
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"

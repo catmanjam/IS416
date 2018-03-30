@@ -6,16 +6,22 @@ package is416.is416;
 
 public class Rewards {
 
-    private String polyId;
     private String name;
-    private int rewardAmt;
+    private String rewardAmt;
     private String rewardType;
 
-    public Rewards(String polyId,String name,int rewardAmt,String rewardType){
-        this.polyId = polyId;
+    public Rewards(String name,String rewardAmt,String rewardType){
         this.name = name;
         this.rewardAmt = rewardAmt;
         this.rewardType = rewardType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getRewardAmt() {
+        return (rewardAmt + " " + rewardType);
     }
 
 }

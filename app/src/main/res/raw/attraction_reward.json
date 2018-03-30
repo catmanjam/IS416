@@ -2,27 +2,37 @@
   "data":
   [
     {
-      "PolyId": "Polygon2",
-      "Name": "Singapore Art Museum",
-      "RewardAmt": "10",
-      "RewardType": "HP"
+      "PolyId": "Polygon1",
+      "Name": "Singapore Art Museum"
     },
     {
       "PolyId": "Polygon3",
-      "Name": "Singapore History Gallery",
-      "RewardAmt": "10",
-      "RewardType": "HP"
-    },
-    {
-      "PolyId": "Polygon1",
-      "Name": "Fort Canning Memorial",
-      "RewardAmt": "10",
-      "RewardType": "HP"
+      "Name": "Singapore History Gallery"
     },
     {
       "PolyId": "Polygon0",
-      "Name": "Peranakan Museum",
+      "Name": "Fort Canning Memorial"
+    },
+    {
+      "PolyId": "Polygon2",
+      "Name": "Peranakan Museum"
+    }
+  ],
+  "rewards":
+  [
+    {
+      "Name":"candy",
       "RewardAmt": "10",
+      "RewardType": "HP"
+    },
+    {
+      "Name":"mouse",
+      "RewardAmt": "20",
+      "RewardType": "HP"
+    },
+    {
+      "Name":"icecream",
+      "RewardAmt": "15",
       "RewardType": "HP"
     }
   ]
