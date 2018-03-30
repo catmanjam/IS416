@@ -1,9 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gamebg"
     tools:context="is416.is416.GameActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/gameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:text="Catch the Ball"
+        android:textColor="#363636"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/catbg"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_alignStart="@+id/gameStart"
+        android:layout_alignTop="@+id/gameTitle"
+        android:layout_marginTop="23dp"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        app:srcCompat="@drawable/catbg" />
+
+    <TextView
+        android:id="@+id/howtoplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:text="How to play:"
+        android:textStyle="bold" />
+
+    <!--<GridLayout-->
+        <!--android:id="@+id/howto"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_above="@+id/gameStart"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="21dp"-->
+        <!--android:columnCount="2"-->
+        <!--android:rowCount="3">-->
+
+
+        <!--<ImageView-->
+            <!--android:id="@+id/ballbg"-->
+            <!--android:layout_width="26dp"-->
+            <!--android:layout_height="26dp"-->
+            <!--android:layout_column="0"-->
+            <!--android:layout_row="0"-->
+            <!--app:srcCompat="@drawable/ballgame" />-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/crossbg"-->
+            <!--android:layout_width="26dp"-->
+            <!--android:layout_height="26dp"-->
+            <!--android:layout_column="0"-->
+            <!--android:layout_row="1"-->
+            <!--app:srcCompat="@drawable/crossgame" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/scoreplus"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_column="1"-->
+            <!--android:layout_row="0"-->
+            <!--android:text="- Catch these!"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textSize="18sp"-->
+            <!--tools:paddingLeft="15dp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/scoreminus"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_column="1"-->
+            <!--android:layout_row="1"-->
+            <!--android:text="- Avoid these!"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textSize="18sp"-->
+            <!--tools:paddingLeft="15dp" />-->
+    <!--</GridLayout>-->
+
+    <Button
+        android:id="@+id/gameStart"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="11dp"
+        android:onClick="startGame"
+        android:text="Start"
+        android:textSize="25sp" />
+
+
+</RelativeLayout>
