@@ -58,9 +58,9 @@ public class StatsDatabase extends SQLiteOpenHelper {
     }
 
     public void initialiseDatabase(SQLiteDatabase db){
-        insertValues(ITEM_HAPPINESS, 50,db);
-        insertValues(ITEM_STEPS, 50,db);
-        insertValues(ITEM_HIGHSCORE, 50,db);
+        insertValues(ITEM_HAPPINESS, 500,db);
+        insertValues(ITEM_STEPS, 500,db);
+        insertValues(ITEM_HIGHSCORE, 20,db);
     }
 
     @Override

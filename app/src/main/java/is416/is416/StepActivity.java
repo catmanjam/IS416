@@ -31,9 +31,6 @@ public class StepActivity extends AppCompatActivity {
     private static final TimeZone SG = TimeZone.getTimeZone("Singapore");
     private BarChart barChart;
     private ImageView imgViewLeft;
-    private ImageView imgViewRight;
-    private Animation catwalkLeftAnimation;
-    private Animation catwalkRightAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +39,6 @@ public class StepActivity extends AppCompatActivity {
 
         // ADD CAT ANIMATION
         loadImageView();
-        walkRight();
 
         // SET TODAY'S STEP COUNT
         StepDatabase stepDatabase = StepDatabase.getInstance(this);
@@ -98,68 +94,10 @@ public class StepActivity extends AppCompatActivity {
     private void loadImageView(){
         imgViewLeft = (ImageView) findViewById(R.id.putCatLeftGif);
         Glide.with(this)
-                .load(R.drawable.catwalk_left)
+                .load(R.drawable.cateating)
                 .dontAnimate()
                 .into(new GlideDrawableImageViewTarget(imgViewLeft));
 
-        imgViewRight = (ImageView) findViewById(R.id.putCatRightGif);
-        Glide.with(this)
-                .load(R.drawable.catwalk_right2)
-                .dontAnimate()
-                .into(new GlideDrawableImageViewTarget(imgViewRight));
-
-        // ADD ANIMATION
-        catwalkLeftAnimation = AnimationUtils.loadAnimation(this, R.anim.move_left);
-        catwalkLeftAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                //  imgViewLeft.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                imgViewLeft.setVisibility(View.INVISIBLE);
-                walkRight();
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        catwalkRightAnimation = AnimationUtils.loadAnimation(this, R.anim.move_right);
-        catwalkRightAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                //imgViewRight.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                imgViewRight.setVisibility(View.INVISIBLE);
-                walkLeft();
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-
-    }
-
-    public void walkLeft(){
-        imgViewLeft.startAnimation(catwalkLeftAnimation);
-    }
-
-    public void walkRight(){
-        imgViewRight.startAnimation(catwalkRightAnimation);
     }
 
     static class MyXAxisValueFormatter implements IAxisValueFormatter {

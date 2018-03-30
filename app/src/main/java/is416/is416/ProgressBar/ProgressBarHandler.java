@@ -9,21 +9,21 @@ import android.widget.ProgressBar;
 public class ProgressBarHandler {
     // add update to database codes
     // add views to show extra point earned animation
-    private ProgressBar happy;
-    private ProgressBar steps;
+    private static ProgressBar happy;
+    private static ProgressBar steps;
 
     public ProgressBarHandler(ProgressBar happy, ProgressBar steps){
         this.happy = happy;
         this.steps = steps;
     }
 
-    public void increaseHappyBar(int points){
+    public static void increaseHappyBar(int points){
         synchronized ("happy"){
             happy.incrementProgressBy(points);
         }
     }
 
-    public void increaseStepsBar(int points){
+    public static void increaseStepsBar(int points){
         synchronized ("steps"){
             steps.incrementProgressBy(points);
         }

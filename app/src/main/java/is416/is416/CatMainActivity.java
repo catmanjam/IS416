@@ -18,6 +18,7 @@ import java.util.Timer;
 
 import is416.is416.Database.StatsDatabase;
 import is416.is416.ProgressBar.Depleter;
+import is416.is416.ProgressBar.ProgressBarHandler;
 import is416.is416.Schedule.Mic;
 import is416.is416.Schedule.ScheduleActivity;
 import me.grantland.widget.AutofitHelper;
@@ -30,6 +31,7 @@ public class CatMainActivity extends AppCompatActivity {
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 101;
     private Mic mic;
     private StatsDatabase myDb;
+    private ProgressBarHandler progressBarHandler;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -55,9 +57,10 @@ public class CatMainActivity extends AppCompatActivity {
         View speechBubbleView = findViewById(R.id.answerbubble);
         View questionBubbleView = findViewById(R.id.questionBubble);
 
-    // ----- PROGRESS BAR INITIALISATION AND SETTING -----
+        // ----- PROGRESS BAR INITIALISATION AND SETTING -----
         ProgressBar happyBar = (ProgressBar) findViewById(R.id.happyBar) ;
         ProgressBar stepsBar = (ProgressBar) findViewById(R.id.walkBar) ;
+        progressBarHandler = new ProgressBarHandler(happyBar, stepsBar);
 
         int happy = myDb.getHappy();
         int steps = myDb.getSteps();

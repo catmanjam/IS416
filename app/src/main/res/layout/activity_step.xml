@@ -49,20 +49,13 @@
 
         <RelativeLayout
             android:layout_below="@id/buffer"
-            android:background="#CCF9FB"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/putCatLeftGif"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#CCF9FB" />
-            <ImageView
-                android:id="@+id/putCatRightGif"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#CCF9FB" />
+                android:layout_height="wrap_content" />
         </RelativeLayout>
     </LinearLayout>
 
