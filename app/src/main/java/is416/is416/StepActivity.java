@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import is416.is416.Database.StepDatabase;
+import is416.is416.ProgressBar.ProgressBarHandler;
 
 public class StepActivity extends AppCompatActivity {
     private static final TimeZone SG = TimeZone.getTimeZone("Singapore");
