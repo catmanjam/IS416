@@ -11,8 +11,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
 import java.util.Timer;
 
@@ -75,10 +79,21 @@ public class CatMainActivity extends AppCompatActivity {
     // ----- WRAP TEXT for CAT ANSWER VIEW -----
         AutofitHelper autofitHelper = AutofitHelper.create(answerView);
         autofitHelper.setTextSize(answerView.getTextSize());
+        loadImageView();
+
 
         mic = new Mic(this, questionView, answerView, speechBubbleView, questionBubbleView);
         mic.micStart();
     }
+
+    public void loadImageView() {
+        ImageView imgViewLeft = findViewById(R.id.maincat);
+        Glide.with(this)
+                .load(R.drawable.maincat)
+                .dontAnimate()
+                .into(new GlideDrawableImageViewTarget(imgViewLeft));
+    }
+
 
     public void goTask(View view) {
         Intent it = new Intent(this, ScheduleActivity.class);

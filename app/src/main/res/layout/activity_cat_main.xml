@@ -20,9 +20,7 @@ tools:context="is416.is416.CatMainActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="444dp">
+        android:orientation="vertical">
 
         <!--This is for stats info-->
         <LinearLayout
@@ -129,7 +127,7 @@ tools:context="is416.is416.CatMainActivity">
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.2"
                 android:gravity="right"
                 android:orientation="vertical"
@@ -140,6 +138,7 @@ tools:context="is416.is416.CatMainActivity">
                     android:layout_height="50dp"
                     android:layout_alignParentStart="true"
                     android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
                     android:background="@drawable/task"
                     android:onClick="goTask"
                     android:scaleType="centerCrop" />
@@ -150,6 +149,7 @@ tools:context="is416.is416.CatMainActivity">
                     android:layout_height="40dp"
                     android:layout_alignParentStart="true"
                     android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
                     android:background="@drawable/gps"
                     android:onClick="goWalk" />
 
@@ -158,6 +158,7 @@ tools:context="is416.is416.CatMainActivity">
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
                     android:background="@drawable/game"
                     android:onClick="goPlay" />
 
@@ -166,6 +167,7 @@ tools:context="is416.is416.CatMainActivity">
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
                     android:background="@drawable/chart"
                     android:onClick="goStep" />
             </LinearLayout>
@@ -229,13 +231,13 @@ tools:context="is416.is416.CatMainActivity">
 
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/maincat"
                     android:layout_width="match_parent"
                     android:layout_height="270dp"
                     android:layout_alignParentBottom="true"
                     android:layout_below="@+id/answer"
                     android:layout_marginTop="35dp"
-                    app:srcCompat="@drawable/cacy" />
+                    app:srcCompat="@drawable/maincat" />
 
             </LinearLayout>
 
