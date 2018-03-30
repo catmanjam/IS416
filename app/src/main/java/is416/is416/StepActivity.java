@@ -38,6 +38,8 @@ public class StepActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step);
 
+
+
         // ADD CAT ANIMATION
         loadImageView();
 
@@ -45,6 +47,17 @@ public class StepActivity extends AppCompatActivity {
         StepDatabase stepDatabase = StepDatabase.getInstance(this);
         Calendar now = Calendar.getInstance();
         now.setTimeZone(SG);
+
+        // TEST
+//        Calendar today = Calendar.getInstance();
+//        today.setTimeZone(TimeZone.getTimeZone("Singapore"));
+//        Integer day = today.get(today.DAY_OF_MONTH);
+//        Integer month =  today.get(today.MONTH);
+//        Integer year = today.get(today.YEAR);
+//        today.set(year, month, 29, 0,0,0);
+//        today.set(Calendar.MILLISECOND,0);
+//        stepDatabase.updateStepRecord(today, 369);
+
 
         TextView stepTdy = findViewById(R.id.stepsTdy);
         int stepsNow = stepDatabase.getStepsToday(now);
@@ -67,14 +80,17 @@ public class StepActivity extends AppCompatActivity {
             // ADD COLUMNS
             dates.add(date);
         }
+        int whiteInt = ContextCompat.getColor(this, R.color.offWhite);
+        int yellowInt = ContextCompat.getColor(this, R.color.yellow);
 
         BarDataSet barDataSet = new BarDataSet(barEntries, "Steps");
+        barDataSet.setValueTextColor(whiteInt);
+        barDataSet.setValueTextSize(13f);
        // barDataSet.setValueTextColor(16777215);
         BarData data = new BarData(barDataSet);
         data.setBarWidth(0.7f);
         barChart.setData(data);
 
-        int yellowInt = ContextCompat.getColor(this, R.color.yellow);
         barChart.getAxisRight().setEnabled(false); // remove right axis
         barChart.getAxisLeft().setAxisMinimum(0);
         barChart.getAxisLeft().setTextSize(13f);
@@ -85,7 +101,6 @@ public class StepActivity extends AppCompatActivity {
         xAxis.setGranularity(1f);
         xAxis.setValueFormatter(new MyXAxisValueFormatter(dates));
         xAxis.setTextColor(yellowInt);
-        int whiteInt = ContextCompat.getColor(this, R.color.offWhite);
         barChart.getLegend().setTextColor(whiteInt);
 
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
