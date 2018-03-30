@@ -20,7 +20,7 @@ import is416.is416.RewardsDatabase;
 public class StatsDatabase extends SQLiteOpenHelper {
 
     private static StatsDatabase dbInstance;
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 10;
     private static final String DATABASE_NAME = "reminder";
 
     private static final TimeZone SG = TimeZone.getTimeZone("Singapore");

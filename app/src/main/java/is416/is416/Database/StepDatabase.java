@@ -18,7 +18,7 @@ import java.util.TimeZone;
 
 public class StepDatabase extends SQLiteOpenHelper {
     private static StepDatabase dbInstance;
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 10;
     private static final String DATABASE_NAME = "reminder";
 
     private static final TimeZone SG = TimeZone.getTimeZone("Singapore");
@@ -51,6 +51,8 @@ public class StepDatabase extends SQLiteOpenHelper {
                 + KEY_DATE + " REAL,"
                 + KEY_COUNT + " INTEGER" + ")";
         db.execSQL(CREATE_STEPS_TABLE);
+        initialiseDatabase(db);
+
     }
 
     @Override
@@ -58,6 +60,21 @@ public class StepDatabase extends SQLiteOpenHelper {
         // Drop older table if existed and Create tables again
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_STEPS);
         onCreate(db);
+    }
+
+    public void initialiseDatabase(SQLiteDatabase db){
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(SG);
+        cal.set(2018, 3, 30, 0,0,0);
+        updateStepRecord(cal, 716);
+        cal.set(2018, 3, 29, 0,0,0);
+        updateStepRecord(cal, 853);
+        cal.set(2018, 3, 27, 0,0,0);
+        updateStepRecord(cal, 653);
+        cal.set(2018, 3, 26, 0,0,0);
+        updateStepRecord(cal, 987);
+        cal.set(2018, 3, 25, 0,0,0);
+        updateStepRecord(cal, 753);
     }
 
     public void updateStepRecord(Calendar today, int steps){
