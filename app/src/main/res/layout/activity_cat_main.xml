@@ -17,12 +17,12 @@ tools:context="is416.is416.CatMainActivity">
         app:srcCompat="@drawable/livingroom" />
 
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="444dp">
 
         <!--This is for stats info-->
         <LinearLayout
@@ -34,8 +34,8 @@ tools:context="is416.is416.CatMainActivity">
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_weight="0.8"
+                android:orientation="vertical"
                 android:paddingRight="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -43,85 +43,81 @@ tools:context="is416.is416.CatMainActivity">
                 app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="5dp">
 
                     <ImageView
                         android:id="@+id/happiness"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_alignParentStart="true"
-                        android:padding="10dp"
-                        android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/happiness_icon" />
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/happy" />
 
                     <ProgressBar
                         android:id="@+id/happyBar"
-                        android:max="500"
-                        android:layout_width="300dp"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_alignParentStart="true"
-                        android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/placeholder_powerbar"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:progressDrawable="@drawable/custom_progressbar" />
-
+                        android:max="500"
+                        android:paddingLeft="10dp"
+                        android:progressDrawable="@drawable/custom_progressbar"
+                        android:scaleType="centerCrop" />
 
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:paddingLeft="5dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent">
 
                     <ImageView
                         android:id="@+id/walk"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_alignParentStart="true"
-                        android:padding="10dp"
-                        android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/steps_icon" />
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/heartbeat" />
 
                     <ProgressBar
                         android:id="@+id/walkBar"
-                        android:max="500"
-                        android:layout_width="300dp"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_alignParentStart="true"
-                        android:scaleType="centerCrop"
-                        app:srcCompat="@drawable/placeholder_powerbar"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:progressDrawable="@drawable/custom_progressbar" />
+                        android:max="500"
+                        android:paddingLeft="10dp"
+                        android:progressDrawable="@drawable/custom_progressbar"
+                        android:scaleType="centerCrop" />
 
                 </LinearLayout>
 
                 <RelativeLayout
                     android:id="@+id/questionBubble"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content">
 
                     <ImageView
                         android:layout_width="250dp"
                         android:layout_height="125dp"
-                        android:background="@drawable/speechbubble"
-                        />
+                        android:background="@drawable/speechbubble" />
 
                     <me.grantland.widget.AutofitTextView
-                        android:textColor="#454545"
-                        android:maxLines="3"
-                        android:textSize="30sp"
-                        android:paddingRight="15dp"
-                        android:paddingLeft="40dp"
-                        android:gravity="center"
                         android:id="@+id/question"
-                        android:text="set reminder for tomorrow 10 am"
                         android:layout_width="250dp"
-                        android:layout_height="110dp" />
+                        android:layout_height="110dp"
+                        android:gravity="center"
+                        android:maxLines="3"
+                        android:paddingLeft="40dp"
+                        android:paddingRight="15dp"
+                        android:text="set reminder for tomorrow 10 am"
+                        android:textColor="#454545"
+                        android:textSize="30sp" />
 
 
                 </RelativeLayout>
@@ -133,54 +129,50 @@ tools:context="is416.is416.CatMainActivity">
 
             <LinearLayout
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.2"
                 android:gravity="right"
-                android:padding="5dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="5dp">
 
                 <Button
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_alignParentStart="true"
+                    android:layout_gravity="center"
+                    android:background="@drawable/task"
                     android:onClick="goTask"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/placeholder_square"
-                    android:background="@drawable/task_btn"/>
+                    android:scaleType="centerCrop" />
 
                 <Button
                     android:id="@+id/goSchedule"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_alignParentStart="true"
-                    android:onClick="goWalk"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/placeholder_square"
-                    android:background="@drawable/walk_btn"/>
+                    android:layout_gravity="center"
+                    android:background="@drawable/gps"
+                    android:onClick="goWalk" />
 
                 <Button
                     android:id="@+id/goGame"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_alignParentStart="true"
-                    android:onClick="goPlay"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/placeholder_square"
-                    android:background="@drawable/game_btn"/>
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/game"
+                    android:onClick="goPlay" />
 
                 <Button
                     android:id="@+id/goSteps"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_alignParentStart="true"
-                    android:onClick="goStep"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/placeholder_square"
-                    android:background="@drawable/game_btn"/>
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/chart"
+                    android:onClick="goStep" />
             </LinearLayout>
 
 
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -189,25 +181,25 @@ tools:context="is416.is416.CatMainActivity">
             <RelativeLayout
 
                 android:id="@+id/answerbubble"
-                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
+                android:layout_centerHorizontal="true"
                 android:layout_weight="0.7">
 
 
                 <me.grantland.widget.AutofitTextView
-                    android:textColor="#454545"
-                    android:maxLines="3"
-                    android:textSize="32sp"
                     android:id="@+id/answer"
                     android:layout_width="250dp"
                     android:layout_height="200dp"
                     android:layout_above="@id/triangle"
                     android:layout_centerHorizontal="true"
-                    android:gravity="center"
                     android:background="@drawable/rounded_rectangle_orange"
+                    android:gravity="center"
+                    android:maxLines="3"
                     android:padding="5dp"
                     android:text="what should i name this reminder?"
+                    android:textColor="#454545"
+                    android:textSize="32sp"
                     app:srcCompat="@drawable/speechbubble" />
 
                 <ImageView
@@ -223,20 +215,20 @@ tools:context="is416.is416.CatMainActivity">
 
             <!--THIS IS THE BOTTOM HALF OF THE PAGE-->
             <LinearLayout
-                android:paddingTop="100dp"
-                android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="100dp">
 
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
                     android:layout_height="270dp"
+                    android:layout_alignParentBottom="true"
                     android:layout_below="@+id/answer"
                     android:layout_marginTop="35dp"
                     app:srcCompat="@drawable/cacy" />
@@ -246,9 +238,9 @@ tools:context="is416.is416.CatMainActivity">
 
             <!--THIS IS THE MIC BUTTON-->
             <RelativeLayout
-                android:paddingBottom="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingBottom="8dp">
 
                 <ImageButton
                     android:id="@+id/micButton"
