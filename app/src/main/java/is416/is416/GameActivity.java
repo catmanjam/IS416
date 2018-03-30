@@ -72,7 +72,7 @@ public class GameActivity extends AppCompatActivity {
         mp = MediaPlayer.create(this, R.raw.gamebgm);
         mp.setLooping(true);
         mp.start();
-        ProgressBarHandler.increaseHappyBar(20);
+//        ProgressBarHandler.increaseHappyBar(20);
 //        GameView gameView = new GameView(this);
 //        l.addView(gameView);
         //this.setContentView(gameView);
@@ -174,6 +174,7 @@ public class GameActivity extends AppCompatActivity {
 
     public void startGame(View view){
 
+        ProgressBarHandler.increaseHappyBar(20);
         TextView gameTitle = findViewById(R.id.gameTitle);
         ImageView catBg = findViewById(R.id.catbg);
         TextView howToPlay = findViewById(R.id.howtoplay);
@@ -240,12 +241,20 @@ public class GameActivity extends AppCompatActivity {
             toHome = ((GameActivity)context).findViewById(R.id.returnHome);
             l = ((GameActivity)context).findViewById(R.id.layout);
 
-            Paint p = new Paint();
-            p.setTextSize(90);
-            p.setColor(Color.parseColor("#4b4b4b"));
-            p.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-            canvas.drawText("High Score: " + highScore,120,250,p);
-            canvas.drawText("Score: " + score,990,250,p);
+            TextView highestScore = ((GameActivity)context).findViewById(R.id.highScore);
+            TextView currentScore = ((GameActivity)context).findViewById(R.id.currentScore);
+            highestScore.setText("High Score: "+highScore);
+            currentScore.setText("Score: "+score);
+            highestScore.setVisibility(View.VISIBLE);
+            currentScore.setVisibility(View.VISIBLE);
+
+
+//            Paint p = new Paint();
+//            p.setTextSize(90);
+//            p.setColor(Color.parseColor("#4b4b4b"));
+//            p.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+//            canvas.drawText("High Score: " + highScore,120,250,p);
+//            canvas.drawText("Score: " + score,990,250,p);
 
             canvas.drawBitmap(cat, xPos, yPos, null);
             canvas.drawBitmap(ball,xRand,yRand, null);

@@ -20,6 +20,32 @@
         android:textSize="40sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/highScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/catbg"
+        android:layout_below="@+id/gameTitle"
+        android:layout_marginStart="14dp"
+        android:text="High Score:"
+        android:textColor="#4b4b4b"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/currentScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gameTitle"
+        android:layout_marginStart="11dp"
+        android:layout_toEndOf="@+id/gameoverText2"
+        android:text="Score: "
+        android:textColor="#4b4b4b"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
+
     <ImageView
         android:id="@+id/catbg"
         android:layout_width="300dp"
