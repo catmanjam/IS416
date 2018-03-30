@@ -39,6 +39,8 @@ public class CatMainActivity extends AppCompatActivity {
     private ProgressBar happyBar;
     private ProgressBar stepsBar;
 
+    ProgressBarHandler progressBarHandler;
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -58,11 +60,30 @@ public class CatMainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        int happyPoints = getIntent().getIntExtra("happyPoints",0);
+        getIntent().removeExtra("happyPoints");
+        if (happyPoints > 0){
+            happyBar.incrementProgressBy(happyPoints);
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         myDb = StatsDatabase.getInstance(this);
         setContentView(R.layout.activity_cat_main);
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
+        // ----- PROGRESS BAR INITIALISATION AND SETTING -----
+        happyBar = (ProgressBar) findViewById(R.id.happyBar) ;
+        stepsBar = (ProgressBar) findViewById(R.id.walkBar) ;
+
+//        int happyPoints = getIntent().getIntExtra("happyPoints",0);
+//        getIntent().removeExtra("happyPoints");
+//        synchronized ("happy"){
+//            happyBar.incrementProgressBy(happyPoints);
+//        }
 
         ImageButton micButton = (ImageButton) findViewById(R.id.micButton);
         TextView questionView = (TextView) findViewById(R.id.question);
@@ -70,10 +91,7 @@ public class CatMainActivity extends AppCompatActivity {
         View speechBubbleView = findViewById(R.id.answerbubble);
         View questionBubbleView = findViewById(R.id.questionBubble);
 
-        // ----- PROGRESS BAR INITIALISATION AND SETTING -----
-        happyBar = (ProgressBar) findViewById(R.id.happyBar) ;
-        stepsBar = (ProgressBar) findViewById(R.id.walkBar) ;
-        ProgressBarHandler progressBarHandler = new ProgressBarHandler(happyBar, stepsBar);
+      //  ProgressBarHandler progressBarHandler = new ProgressBarHandler(happyBar, stepsBar);
 
         int happy = myDb.getHappy();
         int steps = myDb.getSteps();
@@ -127,6 +145,4 @@ public class CatMainActivity extends AppCompatActivity {
         Intent stepLaunch = new Intent(this, StepActivity.class);
         startActivity(stepLaunch);
     }
-
-
 }

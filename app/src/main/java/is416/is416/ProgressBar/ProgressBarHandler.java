@@ -1,5 +1,6 @@
 package is416.is416.ProgressBar;
 
+import android.util.Log;
 import android.widget.ProgressBar;
 
 /**
@@ -20,6 +21,7 @@ public class ProgressBarHandler {
     public static void increaseHappyBar(int points){
         synchronized ("happy"){
             happy.incrementProgressBy(points);
+            Log.d("THIS", ""+points);
         }
     }
 
@@ -27,6 +29,14 @@ public class ProgressBarHandler {
         synchronized ("steps"){
             steps.incrementProgressBy(points);
         }
+    }
+
+    public static ProgressBar getHappy(){
+        return happy;
+    }
+
+    public static ProgressBar getSteps(){
+        return steps;
     }
 
     // have method to increase the respective bars i.e. plus 10 points

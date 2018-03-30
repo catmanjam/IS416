@@ -59,19 +59,18 @@ public class GameActivity extends AppCompatActivity {
     private Button retry;
     private Button toHome;
 
+    int happyPoints = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_game);
         //l = (RelativeLayout) findViewById(R.id.layout);
         mp = MediaPlayer.create(this, R.raw.gamebgm);
         mp.setLooping(true);
         mp.start();
+        happyPoints = 0;
 //        ProgressBarHandler.increaseHappyBar(20);
 //        GameView gameView = new GameView(this);
 //        l.addView(gameView);
@@ -169,12 +168,14 @@ public class GameActivity extends AppCompatActivity {
 
     public void goHome (View view) {
         Intent homeLaunch = new Intent(this, CatMainActivity.class);
+        homeLaunch.putExtra("happyPoints", happyPoints);
         startActivity(homeLaunch);
     }
 
     public void startGame(View view){
+        happyPoints += 30;
 
-        ProgressBarHandler.increaseHappyBar(20);
+
         TextView gameTitle = findViewById(R.id.gameTitle);
         ImageView catBg = findViewById(R.id.catbg);
         TextView howToPlay = findViewById(R.id.howtoplay);

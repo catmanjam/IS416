@@ -16,7 +16,7 @@ import java.util.List;
 public class ApptDatabase extends SQLiteOpenHelper {
 
     private static ApptDatabase dbInstance;
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 8;
     private static final String DATABASE_NAME = "reminder";
 
     // Apporintment Table and Columns names
